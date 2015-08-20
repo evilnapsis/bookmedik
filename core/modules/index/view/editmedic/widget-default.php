@@ -1,10 +1,25 @@
-<?php $user = MedicData::getById($_GET["id"]);?>
+<?php 
+$user = MedicData::getById($_GET["id"]);
+$categories = CategoryData::getAll();
+?>
 <div class="row">
 	<div class="col-md-12">
 	<h1>Editar Medico</h1>
 	<br>
 		<form class="form-horizontal" method="post" id="addproduct" action="index.php?view=updatemedic" role="form">
 
+
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Area*</label>
+    <div class="col-md-6">
+    <select name="category_id" class="form-control">
+    <option value="">-- SELECCIONE --</option>      
+    <?php foreach($categories as $cat):?>
+    <option value="<?php echo $cat->id; ?>" <?php if($user->category_id==$cat->id){ echo "selected"; }?>><?php echo $cat->name; ?></option>      
+    <?php endforeach;?>
+    </select>
+    </div>
+  </div>
 
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Nombre*</label>

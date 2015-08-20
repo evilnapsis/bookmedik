@@ -47,6 +47,12 @@ class ReservationData {
 		return Model::one($query[0],new ReservationData());
 	}
 
+	public static function getEvery(){
+		$sql = "select * from ".self::$tablename;
+		$query = Executor::doit($sql);
+		return Model::many($query[0],new ReservationData());
+	}
+
 
 	public static function getAll(){
 		$sql = "select * from ".self::$tablename." where date(date_at)>=date(NOW()) order by date_at";

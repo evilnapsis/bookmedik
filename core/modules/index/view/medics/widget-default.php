@@ -26,6 +26,7 @@
 			<th>Direccion</th>
 			<th>Email</th>
 			<th>Telefono</th>
+			<th>Area</th>
 			<th></th>
 			</thead>
 			<?php
@@ -36,6 +37,7 @@
 				<td><?php echo $user->address; ?></td>
 				<td><?php echo $user->email; ?></td>
 				<td><?php echo $user->phone; ?></td>
+				<td><?php if($user->category_id!=null){ echo $user->getCategory()->name; } ?></td>
 				<td style="width:200px;">
 				<a href="index.php?view=medichistory&id=<?php echo $user->id;?>" class="btn btn-default btn-xs">Historial</a>
 				<a href="index.php?view=editmedic&id=<?php echo $user->id;?>" class="btn btn-warning btn-xs">Editar</a>

@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>.: BookMedik :.</title>
+    <title>.: BookMedik v1.5 :.</title>
 
     <!-- Bootstrap core CSS -->
     <link href="res/bootstrap3/css/bootstrap.css" rel="stylesheet">
@@ -15,6 +14,12 @@
     <link href="css/sb-admin.css" rel="stylesheet">
     <link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
     <script src="js/jquery-1.10.2.js"></script>
+<?php if(isset($_GET["view"]) && $_GET["view"]=="home"):?>
+<link href='res/fullcalendar.min.css' rel='stylesheet' />
+<link href='res/fullcalendar.print.css' rel='stylesheet' media='print' />
+<script src='res/js/moment.min.js'></script>
+<script src='res/fullcalendar.min.js'></script>
+<?php endif; ?>
 
   </head>
 
@@ -32,7 +37,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./">BookMedik <sup><small><span class="label label-info">v1.0</span></small></sup> </a>
+          <a class="navbar-brand" href="./">BookMedik <sup><small><span class="label label-info">v1.5</span></small></sup> </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
@@ -52,6 +57,7 @@ if(Session::getUID()!=""):
           <li><a href="index.php?view=medics"><i class="fa fa-support"></i> Medicos</a></li>
           <li><a href="index.php?view=categories"><i class="fa fa-th-list"></i> Areas Medicas</a></li>
           <?php if($u->is_admin):?>
+          <li><a href="index.php?view=changelog"><i class="fa fa-filter"></i> Log de cambios </a></li>
           <li><a href="index.php?view=users"><i class="fa fa-users"></i> Usuarios </a></li>
         <?php endif;?>
           </ul>

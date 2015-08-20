@@ -12,7 +12,7 @@ class CategoryData {
 	}
 
 	public function add(){
-		$sql = "insert into user (name) ";
+		$sql = "insert into category (name) ";
 		$sql .= "value (\"$this->name\")";
 		return Executor::doit($sql);
 	}

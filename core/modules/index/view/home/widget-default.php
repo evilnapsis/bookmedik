@@ -1,17 +1,40 @@
+<?php
+
+$events = ReservationData::getEvery();
+foreach($events as $event){
+
+	$thejson[] = array("title"=>$event->title,"url"=>"./?view=editreservation&id=".$event->id,"start"=>$event->date_at."T".$event->time_at);
+
+}
+// print_r(json_encode($thejson));
+
+?>
+<script>
+
+
+	$(document).ready(function() {
+
+		$('#calendar').fullCalendar({
+			header: {
+				left: 'prev,next today',
+				center: 'title',
+				right: 'month,agendaWeek,agendaDay'
+			},
+			defaultDate: '2015-08-12',
+			editable: false,
+			eventLimit: true, // allow "more" link when too many events
+			events: <?php echo json_encode($thejson); ?>
+		});
+		
+	});
+
+</script>
+
+
 <div class="row">
 <div class="col-md-12">
-<h1>Sistema de Citas Medicas</h1>
-<p>Bienvenido a <b>BookMedik</b> un Sistema de Citas Medicas util para consultorios medicos y/o medicos independientes.</p>
-<p>Caracteristicas:</p>
-<ul>
-	<li>Gestion de Citas</li>
-	<li>Gestion de Medicos</li>
-	<li>Gestion de Pacientes</li>
-	<li>Gestion de Usuarios con Acceso al Sistema</li>
-	<li>Historial de Citas por Paciente</li>
-	<li>Historial de Citas por Medico</li>
-	<li>Buscador avanzado por : Palabra clave, medico, paciente y fecha.</li>
-</ul>
-<p>Evilnapsis &copy; 2015</p>
+<h1>Calendario</h1>
+<div id="calendar"></div>
+
 </div>
 </div>
