@@ -34,7 +34,7 @@ $medics = MedicData::getAll();
 <select name="pacient_id" class="form-control">
 <option value="">PACIENTE</option>
   <?php foreach($pacients as $p):?>
-    <option value="<?php echo $p->id; ?>" <?php if(isset($_GET["pacient_id"]) && $_GET["pacient_id"]!=""){ echo "selected"; } ?>><?php echo $p->id." - ".$p->name." ".$p->lastname; ?></option>
+    <option value="<?php echo $p->id; ?>" <?php if(isset($_GET["pacient_id"]) && $_GET["pacient_id"]==$p->id){ echo "selected"; } ?>><?php echo $p->id." - ".$p->name." ".$p->lastname; ?></option>
   <?php endforeach; ?>
 </select>
 		</div>
@@ -45,7 +45,7 @@ $medics = MedicData::getAll();
 <select name="medic_id" class="form-control">
 <option value="">MEDICO</option>
   <?php foreach($medics as $p):?>
-    <option value="<?php echo $p->id; ?>" <?php if(isset($_GET["medic_id"]) && $_GET["medic_id"]!=""){ echo "selected"; } ?>><?php echo $p->id." - ".$p->name." ".$p->lastname; ?></option>
+    <option value="<?php echo $p->id; ?>" <?php if(isset($_GET["medic_id"]) && $_GET["medic_id"]==$p->id){ echo "selected"; } ?>><?php echo $p->id." - ".$p->name." ".$p->lastname; ?></option>
   <?php endforeach; ?>
 </select>
 		</div>

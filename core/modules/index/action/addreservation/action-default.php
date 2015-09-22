@@ -20,5 +20,5 @@ $r->medicaments = $_POST["medicaments"];
 $r->add();
 
 Core::alert("Agregado exitosamente!");
-//Core::redir("./index.php?view=reservations");
+Core::redir("./index.php?view=reservations");
 ?>
