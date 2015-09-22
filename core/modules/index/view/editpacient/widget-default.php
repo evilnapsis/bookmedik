@@ -19,6 +19,26 @@
     </div>
   </div>
   <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Genero*</label>
+    <div class="col-md-6">
+<label class="checkbox-inline">
+  <input type="radio" id="inlineCheckbox1" name="gender" required <?php if($user->gender=="h"){ echo "checked"; }?> value="h"> Hombre
+</label>
+<label class="checkbox-inline">
+  <input type="radio" id="inlineCheckbox2" name="gender" required <?php if($user->gender=="m"){ echo "checked"; }?> value="m"> Mujer
+</label>
+
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Fecha de Nacimiento</label>
+    <div class="col-md-6">
+      <input type="date" name="day_of_birth" class="form-control" value="<?php echo $user->day_of_birth; ?>"  id="address1" placeholder="Fecha de Nacimiento">
+    </div>
+  </div>
+
+  <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Direccion*</label>
     <div class="col-md-6">
       <input type="text" name="address" value="<?php echo $user->address;?>" class="form-control" required id="username" placeholder="Direccion">
@@ -37,7 +57,24 @@
       <input type="text" name="phone"  value="<?php echo $user->phone;?>"  class="form-control" id="inputEmail1" placeholder="Telefono">
     </div>
   </div>
-
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Enfermedad</label>
+    <div class="col-md-6">
+      <textarea name="sick" class="form-control" id="sick" placeholder="Enfermedad"><?php echo $user->sick;?></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Medicamentos</label>
+    <div class="col-md-6">
+      <textarea name="medicaments" class="form-control" id="sick" placeholder="Medicamentos"><?php echo $user->medicaments;?></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Alergia</label>
+    <div class="col-md-6">
+      <textarea name="alergy" class="form-control" id="sick" placeholder="Alergia"><?php echo $user->alergy;?></textarea>
+    </div>
+  </div>
 
   <p class="alert alert-info">* Campos obligatorios</p>
 
