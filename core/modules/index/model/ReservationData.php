@@ -15,8 +15,8 @@ class ReservationData {
 	public function getMedic(){ return MedicData::getById($this->medic_id); }
 
 	public function add(){
-		$sql = "insert into reservation (title,note,medic_id,date_at,time_at,pacient_id,user_id,created_at) ";
-		echo $sql .= "value (\"$this->title\",\"$this->note\",\"$this->medic_id\",\"$this->date_at\",\"$this->time_at\",$this->pacient_id,$this->user_id,$this->created_at)";
+		$sql = "insert into reservation (title,note,medic_id,date_at,time_at,pacient_id,user_id,price,status_id,payment_id,sick,symtoms,medicaments,created_at) ";
+		$sql .= "value (\"$this->title\",\"$this->note\",\"$this->medic_id\",\"$this->date_at\",\"$this->time_at\",$this->pacient_id,$this->user_id,$this->price,$this->status_id,$this->payment_id,\"$this->sick\",\"$this->symtoms\",\"$this->medicaments\",$this->created_at)";
 		return Executor::doit($sql);
 	}
 
