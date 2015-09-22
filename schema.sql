@@ -85,6 +85,7 @@ create table reservation(
 	time_at varchar(50) not null,
 	created_at datetime not null,
 	pacient_id int not null,
+	symtoms text not null,
 	sick text not null,
 	medicaments text not null,
 	user_id int not null,
