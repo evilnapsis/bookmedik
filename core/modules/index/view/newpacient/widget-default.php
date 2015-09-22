@@ -8,15 +8,36 @@
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Nombre*</label>
     <div class="col-md-6">
-      <input type="text" name="name" class="form-control" id="name" placeholder="Nombre">
+      <input type="text" name="name" required class="form-control" id="name" placeholder="Nombre">
     </div>
   </div>
   <div class="form-group">
-    <label for="inputEmail1" class="col-lg-2 control-label">Apellido*</label>
+    <label for="inputEmail1" class="col-lg-2 control-label">Apellido</label>
     <div class="col-md-6">
-      <input type="text" name="lastname" required class="form-control" id="lastname" placeholder="Apellido">
+      <input type="text" name="lastname"  class="form-control" id="lastname" placeholder="Apellido">
     </div>
   </div>
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Genero*</label>
+    <div class="col-md-6">
+<label class="checkbox-inline">
+  <input type="radio" id="inlineCheckbox1" name="gender" required value="h"> Hombre
+</label>
+<label class="checkbox-inline">
+  <input type="radio" id="inlineCheckbox2" name="gender" required value="m"> Mujer
+</label>
+
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Fecha de Nacimiento</label>
+    <div class="col-md-6">
+      <input type="date" name="day_of_birth" class="form-control"  id="address1" placeholder="Fecha de Nacimiento">
+    </div>
+  </div>
+
+
   <div class="form-group">
     <label for="inputEmail1" class="col-lg-2 control-label">Direccion*</label>
     <div class="col-md-6">
@@ -36,9 +57,24 @@
       <input type="text" name="phone" class="form-control" id="phone1" placeholder="Telefono">
     </div>
   </div>
-
-
-
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Enfermedad</label>
+    <div class="col-md-6">
+      <textarea name="sick" class="form-control" id="sick" placeholder="Enfermedad"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Medicamentos</label>
+    <div class="col-md-6">
+      <textarea name="medicaments" class="form-control" id="sick" placeholder="Medicamentos"></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail1" class="col-lg-2 control-label">Alergia</label>
+    <div class="col-md-6">
+      <textarea name="alergy" class="form-control" id="sick" placeholder="Alergia"></textarea>
+    </div>
+  </div>
   <p class="alert alert-info">* Campos obligatorios</p>
 
   <div class="form-group">
