@@ -2,6 +2,13 @@
 <div class="col-md-12">
 <h1>Sistema de Citas Medicas</h1>
 <p>Bienvenido a <b>BookMedik</b> un Sistema de Citas Medicas util para consultorios medicos y/o medicos independientes.</p>
+<h4> v2.0</h4>
+<ul>
+	<li>Nuevos campos en pacientes: genero, fecha de nacimiento, enfermedad, medicamento, alergia</li>
+	<li>Nuevos campos en medicos: genero, fecha de nacimiento </li>
+	<li>Nuevos campos al agregar citas: enfermedad, sintomas, medicamentos, estado, tipo de pago y precio.</li>
+	<li>Reportes por medico, paciente, rango de fecha, estado y tipo de pago +descarga en formato word</li>
+</ul>
 <h4> v1.5</h4>
 <ul>
 	<li>+ Vista del Calendario</li>

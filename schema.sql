@@ -78,7 +78,7 @@ create table payment (
 	name varchar(100) not null
 );
 
-insert into payment (id,name) values (1,"No aplicar"), (2,"Pendiente"),(3,"Pagado"),(4,"Anulado");
+insert into payment (id,name) values  (1,"Pendiente"),(2,"Pagado"),(3,"Anulado");
 
 create table reservation(
 	id int not null auto_increment primary key,

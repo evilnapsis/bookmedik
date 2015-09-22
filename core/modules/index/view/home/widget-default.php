@@ -20,7 +20,7 @@ foreach($events as $event){
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
-			defaultDate: '2015-08-12',
+			defaultDate: '2015-09-22',
 			editable: false,
 			eventLimit: true, // allow "more" link when too many events
 			events: <?php echo json_encode($thejson); ?>

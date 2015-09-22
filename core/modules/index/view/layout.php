@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>.: BookMedik v1.5 :.</title>
+    <title>.: BookMedik v2.0 :.</title>
 
     <!-- Bootstrap core CSS -->
     <link href="res/bootstrap3/css/bootstrap.css" rel="stylesheet">
@@ -37,7 +37,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="./">BookMedik <sup><small><span class="label label-info">v1.5</span></small></sup> </a>
+          <a class="navbar-brand" href="./">BookMedik <sup><small><span class="label label-info">v2.0</span></small></sup> </a>
         </div>
 
         <!-- Collect the nav links, forms, and other content for toggling -->
