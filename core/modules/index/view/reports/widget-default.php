@@ -119,25 +119,33 @@ if($_GET["status_id"]!=""||$_GET["pacient_id"]!="" ||$_GET["medic_id"]!="" ||$_G
 	$sql .= " ( date_at >= \"".$_GET["start_at"]."\" and date_at <= \"".$_GET["finish_at"]."\" ) ";
 }
 
-echo $sql;
+//echo $sql;
 		$users = ReservationData::getBySQL($sql);
 
 }else{
-		$users = ReservationData::getAll();
+		$users = ReservationData::getAllPendings();
 
 }
 		if(count($users)>0){
 			// si hay usuarios
+			$_SESSION["report_data"] = $users;
 			?>
+			<div class="panel panel-default">
+			<div class="panel-heading">
+			<a href="./report/report-word.php" class="btn btn-default btn-xs pull-right"><i class="fa fa-download"> Descargar</i></a>
+			Reportes</div>
 			<table class="table table-bordered table-hover">
 			<thead>
 			<th>Asunto</th>
 			<th>Paciente</th>
 			<th>Medico</th>
 			<th>Fecha</th>
-			<th></th>
+			<th>Estado</th>
+			<th>Pago</th>
+			<th>Costo</th>
 			</thead>
 			<?php
+			$total = 0;
 			foreach($users as $user){
 				$pacient  = $user->getPacient();
 				$medic = $user->getMedic();
@@ -147,14 +155,20 @@ echo $sql;
 				<td><?php echo $pacient->name." ".$pacient->lastname; ?></td>
 				<td><?php echo $medic->name." ".$pacient->lastname; ?></td>
 				<td><?php echo $user->date_at." ".$user->time_at; ?></td>
-				<td style="width:130px;">
-				<a href="index.php?view=editreservation&id=<?php echo $user->id;?>" class="btn btn-warning btn-xs">Editar</a>
-				<a href="index.php?action=delreservation&id=<?php echo $user->id;?>" class="btn btn-danger btn-xs">Eliminar</a>
-				</td>
+				<td><?php echo $user->getStatus()->name; ?></td>
+				<td><?php echo $user->getPayment()->name; ?></td>
+				<td>$ <?php echo number_format($user->price,2,".",",");?></td>
 				</tr>
 				<?php
+				$total += $user->price;
 
 			}
+			echo "</table>";
+			?>
+			<div class="panel-body">
+			<h1>Total: $ <?php echo number_format($total,2,".",",");?></h1>
+			</div>
+			<?php
 
 
 
