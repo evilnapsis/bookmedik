@@ -1,5 +1,7 @@
 <?php
 
+$rx = ReservationData::getRepeated($_POST["pacient_id"],$_POST["medic_id"],$_POST["date_at"],$_POST["time_at"]);
+if($rx==null){
 $r = new ReservationData();
 $r->title = $_POST["title"];
 $r->note = $_POST["note"];
@@ -20,5 +22,8 @@ $r->medicaments = $_POST["medicaments"];
 $r->add();
 
 Core::alert("Agregado exitosamente!");
+}else{
+Core::alert("Error al agregar, Cita Repetida!");
+}
 Core::redir("./index.php?view=reservations");
 ?>

@@ -153,7 +153,7 @@ if($_GET["status_id"]!=""||$_GET["pacient_id"]!="" ||$_GET["medic_id"]!="" ||$_G
 				<tr>
 				<td><?php echo $user->title; ?></td>
 				<td><?php echo $pacient->name." ".$pacient->lastname; ?></td>
-				<td><?php echo $medic->name." ".$pacient->lastname; ?></td>
+				<td><?php echo $medic->name." ".$medic->lastname; ?></td>
 				<td><?php echo $user->date_at." ".$user->time_at; ?></td>
 				<td><?php echo $user->getStatus()->name; ?></td>
 				<td><?php echo $user->getPayment()->name; ?></td>
