@@ -69,7 +69,17 @@ if(Session::getUID()!=""):
 <?php endif;?>
 
 
-
+          <ul class="nav navbar-nav navbar-right navbar-user">
+   <li class="dropdown user-dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+        <b>EVILNAPSIS </b><b class="caret"></b>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a href="http://evilnapsis.com/">Ver sitio</a></li>
+          <li><a href="http://evilnapsis.com/store/">Tienda</a></li>
+          <li><a href="http://evilnapsis.com/product/bookmedik-pro/">BookMedik PRO</a></li>
+        </ul>
+        </li>
 <?php if(Session::getUID()!=""):?>
 <?php 
 $u=null;
@@ -78,7 +88,6 @@ if(Session::getUID()!=""){
   $user = $u->name." ".$u->lastname;
 
   }?>
-          <ul class="nav navbar-nav navbar-right navbar-user">
             <li class="dropdown user-dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <?php echo $user; ?> <b class="caret"></b>
@@ -86,10 +95,11 @@ if(Session::getUID()!=""){
         <ul class="dropdown-menu">
           <li><a href="index.php?view=configuration">Configuracion</a></li>
           <li><a href="logout.php">Salir</a></li>
-        </ul>
+          </ul>
+          </li>
 <?php else:?>
 <?php endif; ?>
-
+</ul>
 
 
 
