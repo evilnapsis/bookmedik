@@ -45,7 +45,7 @@ class Action {
 		print $message;
 	}
 
-	public function execute($action,$params){
+	public static function execute($action,$params){
 		$fullpath =  "core/modules/".Module::$module."/action/".$action."/action-default.php";
 		if(file_exists($fullpath)){
 			include $fullpath;
