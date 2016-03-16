@@ -1,4 +1,9 @@
 <?php
+/**
+* BookMedik
+* @author evilnapsis
+* @url http://evilnapsis.com/about/
+**/
 
 if(count($_POST)>0){
 	$is_admin=0;

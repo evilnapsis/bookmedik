@@ -15,3 +15,4 @@ Link: http://evilnapsis.com/2015/08/10/bookmedik-sistema-de-citas-medicas/
 - Reportes por paciente, medico, rango de fecha, estado, tipo de pago
 - Descarga de reporte enformato word
 
+### Powered by Evilnapsis

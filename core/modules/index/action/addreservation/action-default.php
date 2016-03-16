@@ -1,4 +1,9 @@
 <?php
+/**
+* BookMedik
+* @author evilnapsis
+**/
+
 
 $rx = ReservationData::getRepeated($_POST["pacient_id"],$_POST["medic_id"],$_POST["date_at"],$_POST["time_at"]);
 if($rx==null){

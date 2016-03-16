@@ -1,4 +1,9 @@
 <?php
+/**
+* BookMedik
+* @author evilnapsis
+* @url http://evilnapsis.com/about/
+**/
 if(isset($_POST)){
 $p = PostData::getById($_POST['id']);
 $p->title = $_POST['title'];
