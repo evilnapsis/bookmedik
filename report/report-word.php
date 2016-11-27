@@ -1,10 +1,10 @@
 <?php
 include "../core/autoload.php";
-include "../core/modules/index/model/ReservationData.php";
-include "../core/modules/index/model/PacientData.php";
-include "../core/modules/index/model/MedicData.php";
-include "../core/modules/index/model/StatusData.php";
-include "../core/modules/index/model/PaymentData.php";
+include "../core/app/model/ReservationData.php";
+include "../core/app/model/PacientData.php";
+include "../core/app/model/MedicData.php";
+include "../core/app/model/StatusData.php";
+include "../core/app/model/PaymentData.php";
 session_start();
 
 require_once '../PhpWord/Autoloader.php';

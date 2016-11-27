@@ -1,0 +1,16 @@
+Author: evilnapsis
+Proyecto: lb-admin
+Fecha de Lanzamiento: 2016-11-22
+
+Hola como estas, gracias por la compra o descarga de este paquete, a continuacion te escribo las instrucciones de instalacion:
+
+1.- Copiar y descomprimir el archivo en la carpeta c:\xampp\htdocs, al final tendras una carpeta llamada “lb-admin”, a la cual accederas desde el navegador como -> http://127.0.0.1/lb-admin
+2.- Buscar el archivo schema.sql en lb-admin/schema.sql, una vez localizado copiar y pegar el contenido en una ventana de MySQL, PHPMyAdmin o MySQL WorkBench
+3.- En caso de ser necesario modificar el archivo C:\xampp\htdocs\lb-admin\core\controller\Database.php para los datos asociados al acceso a la base de datos.
+
+Login : http://localhost/lb-admin/
+Usuario: admin
+Password: admin
+
+Dudas y sugerencias a mi direccion email evilnapsis@gmail.com
+Powered By http://evilnapsis.com

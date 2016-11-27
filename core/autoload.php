@@ -32,8 +32,6 @@ include "controller/Cookie.php";
 include "controller/Session.php";
 include "controller/Lb.php";
 
-// 26 diciembre 2014
-include "controller/Form.php";
 
 
 ?>
