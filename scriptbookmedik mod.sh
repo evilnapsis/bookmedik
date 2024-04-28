@@ -18,5 +18,5 @@ mv bookmedik-master /var/www/html
 # Cambiar al directorio del p
 cd /var/www/html/bookmedik-master || exit
 
-# Importar el esquema SQL a la base de datos MySQL
+# Importar el esquema SQL a la base de datos MySQL.
 mysql -u root < schema.sql
