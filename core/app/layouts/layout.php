@@ -239,7 +239,7 @@
       </div>
       <footer class="footer">
         <div><a href="https://evilnapsis.com/">Evilnapsis </a> © 2026.</div>
-        <div class="ms-auto">Version <b>1.1</b></div> 
+        <div class="ms-auto">Version <b>4.1</b></div> 
       </footer>
     </div>
     <?php endif; ?>

@@ -1,60 +1,107 @@
-/***
- * BASE DE DATOS DE PROPOSITO GENERAL
- * 
- * 0000   0   0  0  0     0    0   00  000    0000  0   0000 
- * 0      0   0  0  0     0 0  0  0  0 0  0  0      0  0 
- * 000    0   0  0  0     0 0  0  0  0 0  0   0000  0   0000  
- * 0       0 0   0  0     0  0 0  0000 000       0  0      0
- * 0000     0    0  0000  0    0  0  0 0     0000   0  0000
- * https://evilnapsis.com/
- * **/
-create database lbmin;
-use lbmin;
-
-create table user(
+/*
+* BookMedik Database
+* @author Evilnapsis
+* updated 2020-03-11
+*/
+create database bookmedik;
+use bookmedik; 
+set sql_mode='';
+create table user (
 	id int not null auto_increment primary key,
+	username varchar(50),
 	name varchar(50),
 	lastname varchar(50),
-	username varchar(50),
 	email varchar(255),
 	password varchar(60),
-	image varchar(255),
-	status int default 1,
-	kind int default 1,
+	is_active boolean not null default 1,
+	is_admin boolean not null default 0,
 	created_at datetime
 );
 
-/**
-* password: encrypted using sha1(md5("mypassword"))
-* status: 1. active, 2. inactive, 3. other, ...
-* kind: 1. root, 2. other, ...
-**/
-
-/* insert user example */
-insert into user (name,lastname, email,password,created_at) value ("Administrator","","admin",sha1(md5("admin")),NOW());
+insert into user (username,password,is_admin,is_active,created_at) value ("admin",sha1(md5("admin")),1,1,NOW());
 
 
-create table person(
+create table pacient (
 	id int not null auto_increment primary key,
+	no varchar(50),
 	name varchar(50),
 	lastname varchar(50),
+	gender varchar(1),
+	day_of_birth date,
 	email varchar(255),
 	address varchar(255),
 	phone varchar(255),
 	image varchar(255),
+	sick varchar(500),
+	medicaments varchar(500),
+	alergy varchar(500),
+	is_favorite boolean not null default 1,
+	is_active boolean not null default 1,
 	created_at datetime
 );
 
-create table setting(
+create table category (
 	id int not null auto_increment primary key,
-	name varchar(100) not null unique,
-	label varchar(200) not null,
-	kind int,
-	val text,
-	cfg_id int default 1
+	name varchar(200)
+	);
+
+insert into category (name) value ("Modulo 1");
+
+
+create table medic (
+	id int not null auto_increment primary key,
+	no varchar(50),
+	name varchar(50),
+	lastname varchar(50),
+	gender varchar(1),
+	day_of_birth date,
+	email varchar(255),
+	address varchar(255),
+	phone varchar(255),
+	image varchar(255),
+	is_active boolean not null default 1,
+	created_at datetime,
+	category_id int,
+	foreign key (category_id) references category(id)
 );
 
-insert into setting(name,label,kind,val) value ("general_main_title","Titulo Principal",1,"LEGOBOX");
-insert into setting(name,label,kind,val) value ("general_version","Version",1,"v4");
-insert into setting(name,label,kind,val) value ("general_author","Autor",1,"Evilnapsis");
-insert into setting(name,label,kind,val) value ("general_year","A&ntilde;o",1,"2022");
+
+
+create table status (
+	id int not null auto_increment primary key,
+	name varchar(100)
+);
+
+insert into status (id,name) values (1,"Pendiente"), (2,"Aplicada"),(3,"No asistio"),(4,"Cancelada");
+
+create table payment (
+	id int not null auto_increment primary key,
+	name varchar(100)
+);
+
+insert into payment (id,name) values  (1,"Pendiente"),(2,"Pagado"),(3,"Anulado");
+
+create table reservation(
+	id int not null auto_increment primary key,
+	title varchar(100),
+	note text,
+	message text,
+	date_at varchar(50),
+	time_at varchar(50),
+	created_at datetime,
+	pacient_id int,
+	symtoms text,
+	sick text,
+	medicaments text,
+	user_id int,
+	medic_id int,
+	price double,
+	is_web boolean not null default 0,
+	payment_id int not null default 1,
+	foreign key (payment_id) references payment(id),
+	status_id int not null default 1,
+	foreign key (status_id) references status(id),
+	foreign key (user_id) references user(id),
+	foreign key (pacient_id) references pacient(id),
+	foreign key (medic_id) references medic(id)
+);
