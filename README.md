@@ -1,7 +1,12 @@
 # BookMedik
 Sistema de Citas Medicas usando PHP, MySQL y Bootstrap.
 
-Link: http://evilnapsis.com/2015/08/10/bookmedik-sistema-de-citas-medicas/
+Link: http://evilnapsis.com/portfolio/bookmedik/
+
+### Version 4.0
+- Plantilla de Administracion con Core UI 4, Bootstrap 5, Legobox 4
+- Actualizacion de las vistas de citas, pacientes, medicos, areas, usuarios, configuracion
+- Actualiacion a PHP 8
 
 ### Version 2.0
 

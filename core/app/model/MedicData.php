@@ -1,7 +1,23 @@
 <?php
 class MedicData {
 	public static $tablename = "medic";
-	public function MedicData(){
+
+	public $id;
+	public $title;
+	public $name;
+	public $lastname;
+	public $email;
+	public $image;
+	public $password;
+	public $is_public;
+	public $created_at;
+	public $category_id;
+	public $address;
+	public $phone;
+	public $last_active_at;
+	public $no, $is_favorite, $is_active, $gender, $day_of_birth;
+
+	public function __construct(){
 		$this->title = "";
 		$this->email = "";
 		$this->image = "";

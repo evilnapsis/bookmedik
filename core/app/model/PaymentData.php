@@ -2,8 +2,14 @@
 class PaymentData {
 	public static $tablename = "payment";
 
+	public $id;
+	public $name;
+	public $lastname;
+	public $email;
+	public $password;
+	public $created_at;
 
-	public function PaymentData(){
+	public function __construct(){
 		$this->name = "";
 		$this->lastname = "";
 		$this->email = "";

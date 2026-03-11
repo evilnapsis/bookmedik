@@ -2,8 +2,14 @@
 class StatusData {
 	public static $tablename = "status";
 
+	public $id;
+	public $name;
+	public $lastname;
+	public $email;
+	public $password;
+	public $created_at;
 
-	public function StatusData(){
+	public function __construct(){
 		$this->name = "";
 		$this->lastname = "";
 		$this->email = "";

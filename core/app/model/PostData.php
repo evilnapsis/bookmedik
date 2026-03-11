@@ -2,8 +2,15 @@
 class PostData {
 	public static $tablename = "post";
 
+	public $id;
+	public $title;
+	public $content;
+	public $image;
+	public $user_id;
+	public $is_public;
+	public $created_at;
 
-	public function PostData(){
+	public function __construct(){
 		$this->title = "";
 		$this->content = "";
 		$this->image = "";

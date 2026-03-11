@@ -2,8 +2,29 @@
 class ReservationData {
 	public static $tablename = "reservation";
 
+	public $id;
+	public $title;
+	public $note;
+	public $medic_id;
+	public $date_at;
+	public $time_at;
+	public $pacient_id;
+	public $user_id;
+	public $price;
+	public $status_id;
+	public $payment_id;
+	public $sick;
+	public $symtoms;
+	public $medicaments;
+	public $name;
+	public $lastname;
+	public $email;
+	public $password;
+	public $created_at;
+	public $message;
+	public $is_web;
 
-	public function ReservationData(){
+	public function __construct(){
 		$this->name = "";
 		$this->lastname = "";
 		$this->email = "";

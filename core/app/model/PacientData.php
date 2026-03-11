@@ -1,7 +1,27 @@
 <?php
 class PacientData {
 	public static $tablename = "pacient";
-	public function PacientData(){
+	
+	public $id;
+	public $title;
+	public $name;
+	public $lastname;
+	public $gender;
+	public $day_of_birth;
+	public $email;
+	public $address;
+	public $phone;
+	public $image;
+	public $password;
+	public $sick;
+	public $medicaments;
+	public $alergy;
+	public $is_public;
+	public $created_at;
+	public $last_active_at;
+	public $no, $is_favorite, $is_active;
+
+	public function __construct(){
 		$this->title = "";
 		$this->email = "";
 		$this->image = "";

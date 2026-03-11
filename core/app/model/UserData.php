@@ -1,34 +1,50 @@
 <?php
-class UserData {
+class UserData extends Extra{
 	public static $tablename = "user";
+	public $extra_fields;
+	public $extra_fields_strings;
 
-	public function UserData(){
+	public $id, $name, $lastname, $email, $password, $created_at, $status, $kind, $image;
+	public $username, $is_admin, $is_active;
+
+	public function __construct(){
+		$this->extra_fields = array();
+		$this->extra_fields_strings = array();
 		$this->name = "";
 		$this->lastname = "";
 		$this->username = "";
+		$this->email = "";
 		$this->password = "";
-		$this->is_active = "0";
 		$this->created_at = "NOW()";
 	}
 
+
+	public function register(){
+
+		$sql = "insert into user (".$this->getExtraFieldNames().",username,email,password,created_at) ";
+		$sql .= "value (".$this->getExtraFieldValues().",\"$this->username\",\"$this->email\",\"$this->password\",$this->created_at)";
+		return Executor::doit($sql);
+	}
+
+
 	public function add(){
-		$sql = "insert into ".self::$tablename." (name,lastname,username,password,is_active,is_admin,created_at) ";
-		$sql .= "value (\"$this->name\",\"$this->lastname\",\"$this->username\",\"$this->password\",$this->is_active,$this->is_admin,$this->created_at)";
+		$sql = "insert into user (name,lastname,email,password,kind,created_at) ";
+		$sql .= "value (\"$this->name\",\"$this->lastname\",\"$this->email\",\"$this->password\",$this->kind,$this->created_at)";
 		Executor::doit($sql);
 	}
 
-	public static function delById($id){
-		$sql = "delete from ".self::$tablename." where id=$id";
-		Executor::doit($sql);
-	}
 	public function del(){
 		$sql = "delete from ".self::$tablename." where id=$this->id";
 		Executor::doit($sql);
 	}
 
-// partiendo de que ya tenemos creado un objecto UserData previamente utilizamos el contexto
+	public static function delBy($k,$v){
+		$sql = "delete from ".self::$tablename." where $k=\"$v\"";
+		Executor::doit($sql);
+	}
+
 	public function update(){
-		$sql = "update ".self::$tablename." set name=\"$this->name\",lastname=\"$this->lastname\",username=\"$this->username\",is_active=$this->is_active,is_admin=$this->is_admin where id=$this->id";
+		$sql = "update ".self::$tablename." set name=\"$this->name\",lastname=\"$this->lastname\",email=\"$this->email\",status=\"$this->status\",kind=\"$this->kind\" where id=$this->id";
 		Executor::doit($sql);
 	}
 
@@ -37,23 +53,38 @@ class UserData {
 		Executor::doit($sql);
 	}
 
+	public function updateById($k,$v){
+		$sql = "update ".self::$tablename." set $k=\"$v\" where id=$this->id";
+		Executor::doit($sql);
+	}
+
 	public static function getById($id){
-		$sql = "select * from ".self::$tablename." where id=$id";
+		 $sql = "select * from ".self::$tablename." where id=$id";
 		$query = Executor::doit($sql);
 		return Model::one($query[0],new UserData());
 	}
 
-
+	public static function getBy($k,$v){
+		$sql = "select * from ".self::$tablename." where $k=\"$v\"";
+		$query = Executor::doit($sql);
+		return Model::one($query[0],new UserData());
+	}
 
 	public static function getAll(){
-		$sql = "select * from ".self::$tablename." order by created_at desc";
+		 $sql = "select * from ".self::$tablename;
+		$query = Executor::doit($sql);
+		return Model::many($query[0],new UserData());
+	}
+
+	public static function getAllBy($k,$v){
+		 $sql = "select * from ".self::$tablename." where $k=\"$v\"";
 		$query = Executor::doit($sql);
 		return Model::many($query[0],new UserData());
 	}
 
 
 	public static function getLike($q){
-		$sql = "select * from ".self::$tablename." where title like '%$q%' or content like '%$q%'";
+		$sql = "select * from ".self::$tablename." where name like '%$q%'";
 		$query = Executor::doit($sql);
 		return Model::many($query[0],new UserData());
 	}
