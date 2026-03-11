@@ -44,7 +44,7 @@ class UserData extends Extra{
 	}
 
 	public function update(){
-		$sql = "update ".self::$tablename." set name=\"$this->name\",lastname=\"$this->lastname\",email=\"$this->email\",kind=\"$this->kind\" where id=$this->id";
+		$sql = "update ".self::$tablename." set name=\"$this->name\",lastname=\"$this->lastname\",email=\"$this->email\" where id=$this->id";
 		Executor::doit($sql);
 	}
 
