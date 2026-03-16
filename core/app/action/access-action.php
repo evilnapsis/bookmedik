@@ -15,7 +15,7 @@ $pass = sha1(md5($password_var));
 $base = new Database();
 $con = $base->connect();
 
-$sql = "select * from user where (email= \"".$user."\" or username= \"".$user."\" ) and password= \"".$pass."\" and status=1";
+$sql = "select * from user where (email= \"".$user."\" or username= \"".$user."\" ) and password= \"".$pass."\" and is_active=1";
 //print $sql;
 $query = $con->query($sql);
 $found = false;
