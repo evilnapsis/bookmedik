@@ -11,6 +11,7 @@ class Database {
 
 	function connect(){
 		$con = new mysqli($this->host,$this->user,$this->pass,$this->ddbb);
+		$con->query("set session sql_mode = ''");
 		return $con;
 	}
 
