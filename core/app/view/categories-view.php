@@ -7,7 +7,9 @@ if(isset($_GET["opt"]) && $_GET["opt"]=="all"):?>
   <div class="card-header text-white bg-primary">Categorias</div>
   <div class="card-body">
 	<a href="./?view=categories&opt=new" class="btn btn-secondary"><i class='bi-plus'></i> Nueva Categoria</a>
-<br><br>
+
+
+	<br><br>
 		<?php
 		$users = CategoryData::getAll();
 		if(count($users)>0){

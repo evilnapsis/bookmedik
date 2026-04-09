@@ -20,9 +20,9 @@ if(isset($_GET["opt"]) && $_GET["opt"]=="add"){
 
 		$r->add();
 
-		Core::alert("Agregado exitosamente!");
+		$_SESSION["success"] = "Agregado exitosamente!";
 	}else{
-		Core::alert("Error al agregar, Cita Repetida!");
+		$_SESSION["error"] = "Error al agregar, Cita Repetida!";
 	}
 	Core::redir("./index.php?view=reservations&opt=all");
 }
@@ -44,12 +44,13 @@ else if(isset($_GET["opt"]) && $_GET["opt"]=="upd"){
 
 	$user->update();
 
-	Core::alert("Actualizado exitosamente!");
+	$_SESSION["update"] = "Actualizado exitosamente!";
 	Core::redir("./index.php?view=reservations&opt=all");
 }
 else if(isset($_GET["opt"]) && $_GET["opt"]=="del"){
 	$user = ReservationData::getById($_GET["id"]);
 	$user->del();
+	$_SESSION["delete"] = "Eliminado exitosamente!";
 	Core::redir("./index.php?view=reservations&opt=all");
 }
 ?>

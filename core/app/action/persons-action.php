@@ -13,7 +13,7 @@ if(count($_POST)>0){
 	$user->addExtraFieldString("address", htmlentities($_POST["address"]));
 
 	$user->add();
-	Core::alert("Contacto agregada!");
+	$_SESSION["success"] = "Contacto agregado!";
 	Core::redir("./?view=persons&opt=all");
 }
 }
@@ -29,14 +29,14 @@ if(count($_POST)>0){
 
 	$user->update();
 
-	Core::alert("Contacto actualizado!");
+	$_SESSION["update"] = "Contacto actualizado!";
 	Core::redir("./?view=persons&opt=all");
 }
 }
 else if(isset($_GET["opt"]) && $_GET["opt"]=="del"){
 	$user = PersonData::getById($_GET["id"]);
 	$user->del();
-	Core::alert("Contacto eliminado!");
+	$_SESSION["delete"] = "Contacto eliminado!";
 	Core::redir("./?view=persons&opt=all");
 }
 

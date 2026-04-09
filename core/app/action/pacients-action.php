@@ -15,6 +15,7 @@ if(isset($_GET["opt"]) && $_GET["opt"]=="add"){
 	$user->phone = $_POST["phone"];
 	$user->add();
 
+	$_SESSION["success"] = "Paciente agregado con exito!";
     Core::redir("./index.php?view=pacients&opt=all");
 }
 else if(isset($_GET["opt"]) && $_GET["opt"]=="upd"){
@@ -30,11 +31,13 @@ else if(isset($_GET["opt"]) && $_GET["opt"]=="upd"){
 	$user->email = $_POST["email"];
 	$user->phone = $_POST["phone"];
 	$user->update();
+	$_SESSION["update"] = "Paciente actualizado con exito!";
     Core::redir("./index.php?view=pacients&opt=all");
 }
 else if(isset($_GET["opt"]) && $_GET["opt"]=="del"){
 	$pacient = PacientData::getById($_GET["id"]);
 	$pacient->del();
+	$_SESSION["delete"] = "Paciente eliminado con exito!";
     Core::redir("./index.php?view=pacients&opt=all");
 }
 ?>

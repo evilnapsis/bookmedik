@@ -13,7 +13,7 @@ if(count($_POST)>0){
 	$user->email = htmlentities($_POST["email"]);
 	$user->password = sha1(md5(htmlentities($_POST["password"])));
 	$user->register();
-	Core::alert("Usuario agregado!");
+	$_SESSION["success"] = "Usuario agregado!";
 	Core::redir("./?view=login");
 }
 }
@@ -26,7 +26,7 @@ if(count($_POST)>0){
 	$user->email = $_POST["email"];
 	$user->password = sha1(md5($_POST["password"]));
 	$user->add();
-	Core::alert("Usuario agregado!");
+	$_SESSION["success"] = "Usuario agregado!";
 	Core::redir("./?view=users&opt=all");
 }
 }
@@ -42,9 +42,9 @@ if(count($_POST)>0){
 	if($_POST["password"]!=""){
 		$user->password = sha1(md5($_POST["password"]));
 		$user->update_passwd();
-		Core::alert("Se ha actualizado el password!");
+		$_SESSION["update"] = "Se ha actualizado el password!";
 	}
-	Core::alert("Usuario actualizado!");
+	$_SESSION["update"] = "Usuario actualizado!";
 	Core::redir("./?view=users&opt=all");
 }
 }
@@ -54,7 +54,7 @@ else if(isset($_GET["opt"]) && $_GET["opt"]=="del"){
 	if($user->id!=$_SESSION["user_id"]){
 		$user->del();
 	}
-	Core::alert("Usuario eliminado!");
+	$_SESSION["delete"] = "Usuario eliminado!";
 	Core::redir("./?view=users&opt=all");
 }
 

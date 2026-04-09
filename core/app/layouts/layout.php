@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.23.0/themes/prism.css">
     <link rel="stylesheet" type="text/css" href="assets/bootstrap-icons/bootstrap-icons.css">
     <link href="vendors/@coreui/chartjs/css/coreui-chartjs.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="vendors/sweetalert/sweetalert2.min.css">
+    <script src="vendors/sweetalert/sweetalert2.min.js"></script>
 <?php if(!isset($_GET["view"]) || (isset($_GET["view"]) && $_GET["view"]=="index")):?>
 <link href='assets/fullcalendar/fullcalendar.min.css' rel='stylesheet' />
 <link href='assets/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
@@ -253,6 +255,53 @@
     <script src="assets/js/main.js"></script>
     <script>
     </script>
+    <?php if(isset($_SESSION["success"]) && $_SESSION["success"] != ""):?>
+    <script>
+        Swal.fire({
+          title: "Exito",
+          text: "<?php echo $_SESSION["success"]; ?>",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        });
+    </script>
+    <?php unset($_SESSION["success"]);?>
+    <?php endif;?>
+
+    <?php if(isset($_SESSION["update"]) && $_SESSION["update"] != ""):?>
+    <script>
+        Swal.fire({
+          title: "Exito",
+          text: "<?php echo $_SESSION["update"]; ?>",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        });
+    </script>
+    <?php unset($_SESSION["update"]);?>
+    <?php endif;?>
+
+    <?php if(isset($_SESSION["delete"]) && $_SESSION["delete"] != ""):?>
+    <script>
+        Swal.fire({
+          title: "Exito",
+          text: "<?php echo $_SESSION["delete"]; ?>",
+          icon: "success",
+          confirmButtonText: "Aceptar"
+        });
+    </script>
+    <?php unset($_SESSION["delete"]);?>
+    <?php endif;?>
+
+    <?php if(isset($_SESSION["error"]) && $_SESSION["error"] != ""):?>
+    <script>
+        Swal.fire({
+          title: "Error",
+          text: "<?php echo $_SESSION["error"]; ?>",
+          icon: "error",
+          confirmButtonText: "Aceptar"
+        });
+    </script>
+    <?php unset($_SESSION["error"]);?>
+    <?php endif;?>
 
   </body>
 </html>

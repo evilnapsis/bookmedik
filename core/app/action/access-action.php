@@ -31,8 +31,8 @@ if($found==true) {
 	print "Cargando ... $user";
 	Core::redir("./");
 }else {
-	// Si la contrase~a es incorrecta
-	//Core::redir("./?view=login");
+	$_SESSION["error"] = "Email o contraseña incorrectos!";
+	Core::redir("./");
 }
 }else{
 	// si ya esta logeado
