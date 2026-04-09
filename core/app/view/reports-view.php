@@ -135,6 +135,12 @@ if($_GET["status_id"]!=""||$_GET["pacient_id"]!="" ||$_GET["medic_id"]!="" ||$_G
 		if(count($users)>0){
 			$_SESSION["report_data"] = $users;
 			?>
+            <div class="row">
+                <div class="col-md-12">
+                    <a href="reports.php?<?php echo $_SERVER['QUERY_STRING'];?>" target="_blank" class="btn btn-secondary"><i class="bi-file-earmark-pdf"></i> DESCARGAR PDF</a>
+                </div>
+            </div>
+            <br>
 			<div class="panel panel-default">
 			<div class="panel-heading">Resultados</div>
 			<div class="table-responsive">

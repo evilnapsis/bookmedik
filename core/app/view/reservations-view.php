@@ -121,7 +121,8 @@ if($_GET["q"]!=""||$_GET["pacient_id"]!="" ||$_GET["medic_id"]!="" ){
 				<td><?php echo $pacient->name." ".$pacient->lastname; ?></td>
 				<td><?php echo $medic->name." ".$medic->lastname; ?></td>
 				<td><?php echo $user->date_at." ".$user->time_at; ?></td>
-				<td style="width:180px;">
+				<td style="width:300px;">
+				<a href="reservation.php?id=<?php echo $user->id;?>" target="_blank" class="btn btn-secondary btn-sm"><i class="bi-file-earmark-pdf"></i> VER PDF</a>
 				<a href="index.php?view=reservations&opt=edit&id=<?php echo $user->id;?>" class="btn btn-warning btn-sm"><i class="bi-pencil"></i> Editar</a>
 				<a href="index.php?action=reservations&opt=del&id=<?php echo $user->id;?>" class="btn btn-danger btn-sm"><i class="bi-trash"></i> Eliminar</a>
 				</td>
@@ -409,7 +410,8 @@ $payments = PaymentData::getAll();
 				<td><?php echo $pacient->name." ".$pacient->lastname; ?></td>
 				<td><?php echo $medic->name." ".$medic->lastname; ?></td>
 				<td><?php echo $user->date_at." ".$user->time_at; ?></td>
-				<td style="width:130px;">
+				<td style="width:180px;">
+				<a href="reservation.php?id=<?php echo $user->id;?>" target="_blank" class="btn btn-secondary btn-xs"><i class="bi-file-earmark-pdf"></i></a>
 				<a href="index.php?view=reservations&opt=edit&id=<?php echo $user->id;?>" class="btn btn-warning btn-xs"><i class="bi-pencil"></i></a>
 				<a href="index.php?action=reservations&opt=del&id=<?php echo $user->id;?>" class="btn btn-danger btn-xs"><i class="bi-trash"></i></a>
 				</td>
