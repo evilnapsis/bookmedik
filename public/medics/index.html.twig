@@ -1,0 +1,86 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Directorio Médicos - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><span>Gestión Médica</span></li>
+<li class="breadcrumb-item active"><span>Médicos</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1">Directorio Médico</h3>
+        <p class="text-body-secondary mb-0">Personal médico y asignación de especialidades</p>
+    </div>
+    <a href="{{ base_url }}/medic/new" class="btn btn-primary shadow-sm">
+        <i class="bi bi-person-badge-fill me-2"></i> + Registrar Médico
+    </a>
+</div>
+
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-body p-3">
+        <form action="{{ base_url }}/medics" method="GET" class="row g-2">
+            <div class="col-md-10">
+                <div class="input-group">
+                    <span class="input-group-text bg-body border-end-0"><i class="bi bi-search text-body-secondary"></i></span>
+                    <input type="text" name="q" class="form-control border-start-0" placeholder="Buscar médico por nombre, apellido o correo..." value="{{ query }}">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100"><i class="bi bi-filter me-1"></i> Buscar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-body-tertiary">
+                    <tr>
+                        <th class="ps-4">No. / ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Especialidad</th>
+                        <th>Contacto</th>
+                        <th>Consultorio</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medic in medics %}
+                    <tr>
+                        <td class="ps-4 text-body-secondary fw-semibold">#{{ medic.no ?: medic.id }}</td>
+                        <td class="fw-bold">Dr. {{ medic.name }} {{ medic.lastname }}</td>
+                        <td>
+                            {% set cat = medic.getCategory() %}
+                            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6">
+                                <i class="bi bi-tag-fill me-1"></i> {{ cat ? cat.name : 'Sin Asignar' }}
+                            </span>
+                        </td>
+                        <td>
+                            <div><i class="bi bi-envelope text-body-secondary me-1"></i> {{ medic.email ?: 'Sin email' }}</div>
+                            <small class="text-body-secondary"><i class="bi bi-telephone me-1"></i> {{ medic.phone ?: 'Sin teléfono' }}</small>
+                        </td>
+                        <td>{{ medic.address ?: 'No registrada' }}</td>
+                        <td class="text-end pe-4">
+                            <a href="{{ base_url }}/medic/{{ medic.id }}" class="btn btn-sm btn-outline-info me-1" title="Ver Perfil"><i class="bi bi-eye"></i></a>
+                            <a href="{{ base_url }}/medic/{{ medic.id }}/edit" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil"></i></a>
+                            <form action="{{ base_url }}/medic/{{ medic.id }}/delete" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este médico?');">
+                                {{ csrf_field() }}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-body-secondary">No se encontraron médicos registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

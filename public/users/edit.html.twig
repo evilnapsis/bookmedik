@@ -1,0 +1,64 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Editar Usuario - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ base_url }}/users">Usuarios</a></li>
+<li class="breadcrumb-item active"><span>Editar Usuario</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{{ base_url }}/users" class="text-decoration-none text-body-secondary"><i class="bi bi-arrow-left me-1"></i> Volver a Usuarios</a>
+    <h3 class="fw-bold mt-2">Editar Usuario: {{ user.name }} {{ user.lastname }}</h3>
+</div>
+
+<div class="card border-0 shadow-sm col-md-8 mx-auto mb-4">
+    <div class="card-body p-4">
+        <form action="{{ base_url }}/user/{{ user.id }}/update" method="POST">
+            {{ csrf_field() }}
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Nombre *</label>
+                    <input type="text" name="name" class="form-control" required value="{{ user.name }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Apellido *</label>
+                    <input type="text" name="lastname" class="form-control" required value="{{ user.lastname }}">
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Nombre de Usuario (Username) *</label>
+                    <input type="text" name="username" class="form-control" required value="{{ user.username }}">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Correo Electrónico</label>
+                    <input type="email" name="email" class="form-control" value="{{ user.email }}">
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Cambiar Contraseña (opcional)</label>
+                    <input type="password" name="password" class="form-control" placeholder="Dejar en blanco para mantener la actual">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Rol / Permisos</label>
+                    <select name="is_admin" class="form-select">
+                        <option value="0" {{ not user.is_admin and user.kind != 1 ? 'selected' : '' }}>Usuario Normal</option>
+                        <option value="1" {{ user.is_admin or user.kind == 1 ? 'selected' : '' }}>Administrador</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a href="{{ base_url }}/users" class="btn btn-outline-secondary px-4">Cancelar</a>
+                <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-1"></i> Actualizar Usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

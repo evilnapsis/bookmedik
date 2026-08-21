@@ -105,3 +105,17 @@ create table reservation(
 	foreign key (pacient_id) references pacient(id),
 	foreign key (medic_id) references medic(id)
 );
+
+create table setting(
+	id int not null auto_increment primary key,
+	name varchar(100) not null unique,
+	label varchar(255) not null,
+	kind int default 1,
+	val text,
+	cfg_id int default 1
+);
+
+insert into setting (name, label, val) values 
+("title", "Título del Sistema", "BookMedik v5"),
+("admin_email", "Correo Administrador", "admin@bookmedik.com");
+

@@ -1,0 +1,136 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Dashboard Principal - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active"><span>Dashboard</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1">Panel de Control</h3>
+        <p class="text-body-secondary mb-0">Resumen operativo del sistema médico</p>
+    </div>
+    <a href="{{ base_url }}/reservation/new" class="btn btn-primary shadow-sm">
+        <i class="bi bi-calendar-plus me-2"></i> + Agendar Nueva Cita
+    </a>
+</div>
+
+<!-- Tarjetas Estadística KPIs Estilo CoreUI -->
+<div class="row g-4 mb-4">
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-primary shadow-sm border-0">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="fs-4 fw-semibold">{{ pacients_count }}</div>
+                    <div>Pacientes Registrados</div>
+                </div>
+                <div class="fs-1 opacity-50"><i class="bi bi-people-fill"></i></div>
+            </div>
+            <div class="px-3 pb-3 pt-2">
+                <a href="{{ base_url }}/pacients" class="text-white text-decoration-none small">Ver directorio <i class="bi bi-arrow-right me-1"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-info shadow-sm border-0">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="fs-4 fw-semibold">{{ medics_count }}</div>
+                    <div>Personal Médico</div>
+                </div>
+                <div class="fs-1 opacity-50"><i class="bi bi-person-badge-fill"></i></div>
+            </div>
+            <div class="px-3 pb-3 pt-2">
+                <a href="{{ base_url }}/medics" class="text-white text-decoration-none small">Ver personal <i class="bi bi-arrow-right me-1"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-warning shadow-sm border-0">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="fs-4 fw-semibold">{{ upcoming_count }}</div>
+                    <div>Citas Próximas</div>
+                </div>
+                <div class="fs-1 opacity-50"><i class="bi bi-calendar-check-fill"></i></div>
+            </div>
+            <div class="px-3 pb-3 pt-2">
+                <a href="{{ base_url }}/reservations" class="text-white text-decoration-none small">Ver agenda <i class="bi bi-arrow-right me-1"></i></a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6 col-lg-3">
+        <div class="card text-white bg-danger shadow-sm border-0">
+            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="fs-4 fw-semibold">{{ pending_count }}</div>
+                    <div>Citas Pendientes</div>
+                </div>
+                <div class="fs-1 opacity-50"><i class="bi bi-hourglass-split"></i></div>
+            </div>
+            <div class="px-3 pb-3 pt-2">
+                <a href="{{ base_url }}/reservations?filter=pending" class="text-white text-decoration-none small">Atender pendientes <i class="bi bi-arrow-right me-1"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabla de Próximas Citas -->
+<div class="card mb-4 border-0 shadow-sm">
+    <div class="card-header bg-body-tertiary py-3 d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0 fw-bold"><i class="bi bi-clock-history me-2 text-primary"></i> Próximas Citas Agendadas</h5>
+        <a href="{{ base_url }}/reservations" class="btn btn-sm btn-outline-primary rounded-pill px-3">Ver Todas</a>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0 table-hover">
+                <thead class="bg-body-tertiary">
+                    <tr>
+                        <th class="ps-4">Asunto / Cita</th>
+                        <th>Paciente</th>
+                        <th>Médico</th>
+                        <th>Fecha y Hora</th>
+                        <th>Estatus</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in recent_reservations %}
+                    <tr>
+                        <td class="ps-4 fw-semibold">{{ reservation.title ?: 'Cita Médica' }}</td>
+                        <td>
+                            {% set pacient = reservation.getPacient() %}
+                            {{ pacient ? pacient.name ~ ' ' ~ pacient.lastname : 'N/A' }}
+                        </td>
+                        <td>
+                            {% set medic = reservation.getMedic() %}
+                            {{ medic ? 'Dr. ' ~ medic.name ~ ' ' ~ medic.lastname : 'N/A' }}
+                        </td>
+                        <td>
+                            <i class="bi bi-calendar3 me-1 text-body-secondary"></i> {{ reservation.date_at }}
+                            <i class="bi bi-clock me-1 text-body-secondary ms-2"></i> {{ reservation.time_at }}
+                        </td>
+                        <td>
+                            {% set status = reservation.getStatus() %}
+                            <span class="badge rounded-pill px-3 py-2 badge-status-{{ reservation.status_id }}">
+                                {{ status ? status.name : 'Pendiente' }}
+                            </span>
+                        </td>
+                        <td class="text-end pe-4">
+                            <a href="{{ base_url }}/reservation/{{ reservation.id }}/pdf" class="btn btn-sm btn-outline-danger me-1" target="_blank" title="Imprimir PDF"><i class="bi bi-file-pdf"></i></a>
+                            <a href="{{ base_url }}/reservation/{{ reservation.id }}/edit" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-body-secondary">No hay citas próximas agendadas.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

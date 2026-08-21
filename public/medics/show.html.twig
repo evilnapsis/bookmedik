@@ -1,0 +1,88 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Perfil Médico - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ base_url }}/medics">Médicos</a></li>
+<li class="breadcrumb-item active"><span>Perfil</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{{ base_url }}/medics" class="text-decoration-none text-body-secondary"><i class="bi bi-arrow-left me-1"></i> Volver a Médicos</a>
+    <div class="d-flex justify-content-between align-items-center mt-2">
+        <h3 class="fw-bold mb-0">Perfil Profesional Médico</h3>
+        <a href="{{ base_url }}/medic/{{ medic.id }}/edit" class="btn btn-outline-primary"><i class="bi bi-pencil me-1"></i> Editar Información</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4">
+        <div class="card p-4 border-0 shadow-sm text-center">
+            <div class="avatar bg-info bg-opacity-10 text-info rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px; font-size: 36px;">
+                <i class="bi bi-person-badge-fill"></i>
+            </div>
+            <h4 class="fw-bold mb-1">Dr. {{ medic.name }} {{ medic.lastname }}</h4>
+            {% set cat = medic.getCategory() %}
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-2 fs-6 my-2">
+                {{ cat ? cat.name : 'Sin Asignar' }}
+            </span>
+
+            <div class="text-start border-top pt-3 mt-2">
+                <p class="mb-2"><strong>No. Licencia:</strong> #{{ medic.no ?: medic.id }}</p>
+                <p class="mb-2"><strong>Email:</strong> {{ medic.email ?: 'N/A' }}</p>
+                <p class="mb-2"><strong>Teléfono:</strong> {{ medic.phone ?: 'N/A' }}</p>
+                <p class="mb-0"><strong>Consultorio:</strong> {{ medic.address ?: 'N/A' }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-body-tertiary py-3">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-calendar-check me-2 text-primary"></i> Citas Asignadas al Médico</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0 table-hover">
+                        <thead class="bg-body-tertiary">
+                            <tr>
+                                <th class="ps-4">Asunto / Cita</th>
+                                <th>Paciente</th>
+                                <th>Fecha y Hora</th>
+                                <th>Estatus</th>
+                                <th class="text-end pe-4">PDF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in reservations %}
+                            <tr>
+                                <td class="ps-4 fw-semibold">{{ reservation.title ?: 'Cita Médica' }}</td>
+                                <td>
+                                    {% set pacient = reservation.getPacient() %}
+                                    {{ pacient ? pacient.name ~ ' ' ~ pacient.lastname : 'N/A' }}
+                                </td>
+                                <td>{{ reservation.date_at }} {{ reservation.time_at }}</td>
+                                <td>
+                                    {% set status = reservation.getStatus() %}
+                                    <span class="badge rounded-pill px-3 py-2 badge-status-{{ reservation.status_id }}">
+                                        {{ status ? status.name : 'Pendiente' }}
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <a href="{{ base_url }}/reservation/{{ reservation.id }}/pdf" class="btn btn-sm btn-outline-danger" target="_blank"><i class="bi bi-file-pdf"></i></a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-body-secondary">Este médico no tiene citas agendadas.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

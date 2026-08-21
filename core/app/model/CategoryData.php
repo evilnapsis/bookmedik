@@ -1,63 +1,28 @@
 <?php
-class CategoryData {
+
+class CategoryData extends LbModel {
 	public static $tablename = "category";
 
 	public $id;
 	public $name;
-	public $lastname;
-	public $email;
-	public $password;
-	public $created_at;
 
 	public function __construct(){
 		$this->name = "";
-		$this->lastname = "";
-		$this->email = "";
-		$this->password = "";
-		$this->created_at = "NOW()";
-	}
-
-	public function add(){
-		$sql = "insert into category (name) ";
-		$sql .= "value (\"$this->name\")";
-		return Executor::doit($sql);
-	}
-
-	public static function delById($id){
-		$sql = "delete from ".self::$tablename." where id=$id";
-		Executor::doit($sql);
-	}
-	public function del(){
-		$sql = "delete from ".self::$tablename." where id=$this->id";
-		Executor::doit($sql);
-	}
-
-// partiendo de que ya tenemos creado un objecto CategoryData previamente utilizamos el contexto
-	public function update(){
-		$sql = "update ".self::$tablename." set name=\"$this->name\" where id=$this->id";
-		Executor::doit($sql);
 	}
 
 	public static function getById($id){
-		$sql = "select * from ".self::$tablename." where id=$id";
-		$query = Executor::doit($sql);
-		return Model::one($query[0],new CategoryData());
+		return static::find($id);
 	}
 
-	public static function getAll(){
-		$sql = "select * from ".self::$tablename;
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new CategoryData());
-
-	}
-	
-	public static function getLike($q){
-		$sql = "select * from ".self::$tablename." where name like '%$q%'";
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new CategoryData());
+	public static function getAll(): array {
+		return static::all();
 	}
 
-
+	public static function getLike(string $q): array {
+		$db = static::getDb();
+		$stmt = $db->prepare("SELECT * FROM " . static::$tablename . " WHERE name LIKE :q ORDER BY id DESC");
+		$stmt->execute(['q' => "%{$q}%"]);
+		return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+	}
 }
-
 ?>

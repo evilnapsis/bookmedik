@@ -1,24 +1,19 @@
 <?php
+/**
+ * BookMedik v5 - Autoloader Principal del Core
+ * Basado en la arquitectura LegoBox v5 (lb-min-5)
+ */
 
-include "controller/Core.php";
-include "controller/View.php";
-//include "controller/Module.php"; // Renamed to Layout
-include "controller/Database.php";
-include "controller/Executor.php";
+include __DIR__ . "/controller/Database.php";
+include __DIR__ . "/controller/LbModel.php";
+include __DIR__ . "/controller/Session.php";
+include __DIR__ . "/controller/Request.php";
+include __DIR__ . "/controller/Response.php";
+include __DIR__ . "/controller/ViewEngine.php";
 
-// 10 octubre 2014
-include "controller/Lb.php";
-include "controller/Model.php";
-include "controller/Bootload.php";
-include "controller/Action.php";
+if (file_exists(__DIR__ . "/controller/class.upload.php")) {
+    include __DIR__ . "/controller/class.upload.php";
+}
 
-include "controller/class.upload.php";
-
-// 6 Agosto 2022
-include "controller/Extra.php";
-include "controller/Layout.php";
-// 8 Agosto 2022
-include "controller/FormTool.php";
-include "controller/TableTool.php";
-
+include __DIR__ . "/app/autoload.php";
 ?>

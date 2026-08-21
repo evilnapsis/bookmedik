@@ -1,0 +1,127 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Reportes de Citas - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><span>Análisis y Ajustes</span></li>
+<li class="breadcrumb-item active"><span>Reportes</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1">Módulo de Reportes</h3>
+        <p class="text-body-secondary mb-0">Generación y filtrado dinámico de citas médicas</p>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-funnel text-primary me-2"></i> Filtros de Reporte</h5>
+        <form action="{{ base_url }}/reports" method="GET" class="row g-3">
+            <div class="col-md-3">
+                <label class="form-label font-weight-bold">Médico</label>
+                <select name="medic_id" class="form-select">
+                    <option value="">-- Todos los Médicos --</option>
+                    {% for medic in medics %}
+                        <option value="{{ medic.id }}" {{ filters.medic_id == medic.id ? 'selected' : '' }}>Dr. {{ medic.name }} {{ medic.lastname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label font-weight-bold">Paciente</label>
+                <select name="pacient_id" class="form-select">
+                    <option value="">-- Todos los Pacientes --</option>
+                    {% for pacient in pacients %}
+                        <option value="{{ pacient.id }}" {{ filters.pacient_id == pacient.id ? 'selected' : '' }}>{{ pacient.name }} {{ pacient.lastname }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label font-weight-bold">Estatus</label>
+                <select name="status_id" class="form-select">
+                    <option value="">-- Todos --</option>
+                    {% for status in statuses %}
+                        <option value="{{ status.id }}" {{ filters.status_id == status.id ? 'selected' : '' }}>{{ status.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label font-weight-bold">Desde</label>
+                <input type="date" name="start_at" class="form-control" value="{{ filters.start_at }}">
+            </div>
+            <div class="col-md-2">
+                <label class="form-label font-weight-bold">Hasta</label>
+                <input type="date" name="finish_at" class="form-control" value="{{ filters.finish_at }}">
+            </div>
+            <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+                <a href="{{ base_url }}/reports" class="btn btn-outline-secondary px-3">Limpiar Filtros</a>
+                <button type="submit" class="btn btn-primary px-4"><i class="bi bi-search me-1"></i> Generar Reporte</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% if has_filters %}
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-body-tertiary py-3 d-flex justify-content-between align-items-center">
+        <h5 class="mb-0 fw-bold"><i class="bi bi-file-earmark-text text-primary me-2"></i> Resultados del Reporte</h5>
+        <div>
+            <a href="{{ base_url }}/reports/pdf?medic_id={{ filters.medic_id }}&pacient_id={{ filters.pacient_id }}&status_id={{ filters.status_id }}&start_at={{ filters.start_at }}&finish_at={{ filters.finish_at }}" target="_blank" class="btn btn-sm btn-outline-danger me-2">
+                <i class="bi bi-file-pdf me-1"></i> Exportar PDF
+            </a>
+            <span class="badge bg-primary rounded-pill px-3 py-2 fs-6">{{ reservations|length }} Resultados Encontrados</span>
+        </div>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-body-tertiary">
+                    <tr>
+                        <th class="ps-4">Asunto</th>
+                        <th>Paciente</th>
+                        <th>Médico</th>
+                        <th>Fecha y Hora</th>
+                        <th>Precio</th>
+                        <th>Estatus</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for reservation in reservations %}
+                    <tr>
+                        <td class="ps-4 fw-semibold">{{ reservation.title ?: 'Cita Médica' }}</td>
+                        <td>
+                            {% set pacient = reservation.getPacient() %}
+                            {{ pacient ? pacient.name ~ ' ' ~ pacient.lastname : 'N/A' }}
+                        </td>
+                        <td>
+                            {% set medic = reservation.getMedic() %}
+                            {{ medic ? 'Dr. ' ~ medic.name ~ ' ' ~ medic.lastname : 'N/A' }}
+                        </td>
+                        <td>{{ reservation.date_at }} {{ reservation.time_at }}</td>
+                        <td class="fw-semibold text-success">${{ reservation.price|number_format(2) }}</td>
+                        <td>
+                            {% set status = reservation.getStatus() %}
+                            <span class="badge rounded-pill px-3 py-2 badge-status-{{ reservation.status_id }}">
+                                {{ status ? status.name : 'Pendiente' }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center py-4 text-body-secondary">No se encontraron citas con los criterios seleccionados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="card p-5 text-center border-0 shadow-sm mb-4">
+    <div class="text-body-secondary mb-2"><i class="bi bi-info-circle fs-1"></i></div>
+    <h5 class="fw-bold">Selecciona tus criterios de búsqueda</h5>
+    <p class="text-body-secondary mb-0">Elige un médico, paciente, estatus o rango de fechas arriba para obtener el reporte.</p>
+</div>
+{% endif %}
+{% endblock %}

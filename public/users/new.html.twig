@@ -1,0 +1,64 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Nuevo Usuario - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ base_url }}/users">Usuarios</a></li>
+<li class="breadcrumb-item active"><span>Nuevo Usuario</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{{ base_url }}/users" class="text-decoration-none text-body-secondary"><i class="bi bi-arrow-left me-1"></i> Volver a Usuarios</a>
+    <h3 class="fw-bold mt-2">Registrar Nuevo Usuario</h3>
+</div>
+
+<div class="card border-0 shadow-sm col-md-8 mx-auto mb-4">
+    <div class="card-body p-4">
+        <form action="{{ base_url }}/user/create" method="POST">
+            {{ csrf_field() }}
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Nombre *</label>
+                    <input type="text" name="name" class="form-control" required placeholder="Nombre del usuario">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Apellido *</label>
+                    <input type="text" name="lastname" class="form-control" required placeholder="Apellido del usuario">
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Nombre de Usuario (Username) *</label>
+                    <input type="text" name="username" class="form-control" required placeholder="ej. jdoe">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Correo Electrónico *</label>
+                    <input type="email" name="email" class="form-control" required placeholder="usuario@correo.com">
+                </div>
+            </div>
+
+            <div class="row g-3 mb-4">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Contraseña *</label>
+                    <input type="password" name="password" class="form-control" required minlength="4" placeholder="••••••••">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Rol / Permisos</label>
+                    <select name="is_admin" class="form-select">
+                        <option value="0">Recepcionista / Usuario Estándar</option>
+                        <option value="1">Administrador</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a href="{{ base_url }}/users" class="btn btn-outline-secondary px-4">Cancelar</a>
+                <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-1"></i> Crear Usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

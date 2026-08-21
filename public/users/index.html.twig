@@ -1,0 +1,77 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Administración de Usuarios - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><span>Análisis y Ajustes</span></li>
+<li class="breadcrumb-item active"><span>Usuarios</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1">Usuarios del Sistema</h3>
+        <p class="text-body-secondary mb-0">Gestión de cuentas y permisos de acceso</p>
+    </div>
+    <a href="{{ base_url }}/user/new" class="btn btn-primary shadow-sm">
+        <i class="bi bi-person-plus-fill me-2"></i> + Nuevo Usuario
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-body-tertiary">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Nombre Completo</th>
+                        <th>Usuario</th>
+                        <th>Email</th>
+                        <th>Rol</th>
+                        <th>Estatus</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td class="ps-4 text-body-secondary fw-semibold">#{{ user.id }}</td>
+                        <td class="fw-bold">{{ user.name }} {{ user.lastname }}</td>
+                        <td><span class="badge bg-body-tertiary text-body border px-2 py-1">@{{ user.username }}</span></td>
+                        <td>{{ user.email ?: 'Sin email' }}</td>
+                        <td>
+                            {% if user.is_admin or user.kind == 1 %}
+                                <span class="badge bg-primary bg-opacity-10 text-primary"><i class="bi bi-shield-lock me-1"></i> Administrador</span>
+                            {% else %}
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary"><i class="bi bi-person me-1"></i> Usuario Normal</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.is_active or user.is_active is null %}
+                                <span class="badge bg-success bg-opacity-10 text-success">Activo</span>
+                            {% else %}
+                                <span class="badge bg-danger bg-opacity-10 text-danger">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td class="text-end pe-4">
+                            <a href="{{ base_url }}/user/{{ user.id }}/edit" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil"></i></a>
+                            {% if user.id != session.user_id %}
+                            <form action="{{ base_url }}/user/{{ user.id }}/delete" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar este usuario?');">
+                                {{ csrf_field() }}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i></button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-body-secondary">No hay usuarios registrados.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

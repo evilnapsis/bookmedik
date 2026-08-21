@@ -1,95 +1,72 @@
 <?php
-class UserData extends Extra{
-	public static $tablename = "user";
-	public $extra_fields;
-	public $extra_fields_strings;
 
-	public $id, $name, $lastname, $email, $password, $created_at, $status, $kind, $image;
-	public $username, $is_admin, $is_active;
+class UserData extends LbModel {
+	public static $tablename = "user";
+
+	public $id;
+	public $username;
+	public $name;
+	public $lastname;
+	public $email;
+	public $password;
+	public $is_active;
+	public $is_admin;
+	public $kind;
+	public $created_at;
 
 	public function __construct(){
-		$this->extra_fields = array();
-		$this->extra_fields_strings = array();
+		$this->username = "";
 		$this->name = "";
 		$this->lastname = "";
-		$this->username = "";
 		$this->email = "";
 		$this->password = "";
-		$this->created_at = "NOW()";
-	}
-
-
-	public function register(){
-
-		$sql = "insert into user (".$this->getExtraFieldNames().",username,email,password,created_at) ";
-		$sql .= "value (".$this->getExtraFieldValues().",\"$this->username\",\"$this->email\",\"$this->password\",$this->created_at)";
-		return Executor::doit($sql);
-	}
-
-
-	public function add(){
-		$sql = "insert into user (name,lastname,email,password,kind,created_at) ";
-		$sql .= "value (\"$this->name\",\"$this->lastname\",\"$this->email\",\"$this->password\",$this->kind,$this->created_at)";
-		Executor::doit($sql);
-	}
-
-	public function del(){
-		$sql = "delete from ".self::$tablename." where id=$this->id";
-		Executor::doit($sql);
-	}
-
-	public static function delBy($k,$v){
-		$sql = "delete from ".self::$tablename." where $k=\"$v\"";
-		Executor::doit($sql);
-	}
-
-	public function update(){
-		$sql = "update ".self::$tablename." set name=\"$this->name\",lastname=\"$this->lastname\",email=\"$this->email\" where id=$this->id";
-		Executor::doit($sql);
-	}
-
-	public function update_passwd(){
-		$sql = "update ".self::$tablename." set password=\"$this->password\" where id=$this->id";
-		Executor::doit($sql);
-	}
-
-	public function updateById($k,$v){
-		$sql = "update ".self::$tablename." set $k=\"$v\" where id=$this->id";
-		Executor::doit($sql);
+		$this->is_active = 1;
+		$this->is_admin = 0;
+		$this->kind = 2;
+		$this->created_at = date('Y-m-d H:i:s');
 	}
 
 	public static function getById($id){
-		 $sql = "select * from ".self::$tablename." where id=$id";
-		$query = Executor::doit($sql);
-		return Model::one($query[0],new UserData());
+		return static::find($id);
 	}
 
-	public static function getBy($k,$v){
-		$sql = "select * from ".self::$tablename." where $k=\"$v\"";
-		$query = Executor::doit($sql);
-		return Model::one($query[0],new UserData());
+	public static function getByUsernameOrEmail(string $username) {
+		$db = static::getDb();
+		$stmt = $db->prepare("SELECT * FROM " . static::$tablename . " WHERE (username = :u OR email = :u) AND (is_active = 1 OR is_active IS NULL) LIMIT 1");
+		$stmt->execute(['u' => $username]);
+		$stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+		return $stmt->fetch() ?: null;
 	}
 
-	public static function getAll(){
-		 $sql = "select * from ".self::$tablename;
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new UserData());
+	public static function getLogin(string $username, string $password) {
+		$user = static::getByUsernameOrEmail($username);
+		if (!$user) {
+			return null;
+		}
+
+		// 1. Verificar si la contraseña usa Bcrypt estándar (password_verify)
+		if (password_verify($password, $user->password)) {
+			return $user;
+		}
+
+		// 2. Verificar hash legacy BookMedik: sha1(md5($password)) o md5($password)
+		$legacySha1Md5 = sha1(md5($password));
+		$legacyMd5 = md5($password);
+
+		if ($user->password === $legacySha1Md5 || $user->password === $legacyMd5 || $user->password === $password) {
+			// Auto-actualizar el hash del usuario a Bcrypt de manera transparente
+			$user->password = password_hash($password, PASSWORD_DEFAULT);
+			$user->save();
+			return $user;
+		}
+
+		return null;
 	}
 
-	public static function getAllBy($k,$v){
-		 $sql = "select * from ".self::$tablename." where $k=\"$v\"";
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new UserData());
+	public static function getAll(): array {
+		$db = static::getDb();
+		$stmt = $db->query("SELECT * FROM " . static::$tablename . " ORDER BY id DESC");
+		return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
 	}
-
-
-	public static function getLike($q){
-		$sql = "select * from ".self::$tablename." where name like '%$q%'";
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new UserData());
-	}
-
-
 }
-
 ?>

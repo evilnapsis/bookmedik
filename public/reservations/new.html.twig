@@ -1,0 +1,97 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Nueva Cita - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="{{ base_url }}/reservations">Citas</a></li>
+<li class="breadcrumb-item active"><span>Nueva Cita</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+    <a href="{{ base_url }}/reservations" class="text-decoration-none text-body-secondary"><i class="bi bi-arrow-left me-1"></i> Volver a Citas</a>
+    <h3 class="fw-bold mt-2">Agendar Nueva Cita Médica</h3>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <form action="{{ base_url }}/reservation/create" method="POST">
+            {{ csrf_field() }}
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Asunto / Título de la Cita</label>
+                    <input type="text" name="title" class="form-control" placeholder="Ej. Consulta General, Control Anual..." required>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label font-weight-bold">Fecha *</label>
+                    <input type="date" name="date_at" class="form-control" required value="{{ "now"|date("Y-m-d") }}">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label font-weight-bold">Hora *</label>
+                    <input type="time" name="time_at" class="form-control" required value="{{ "now"|date("H:i") }}">
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Paciente *</label>
+                    <select name="pacient_id" class="form-select" required>
+                        <option value="">-- Seleccionar Paciente --</option>
+                        {% for pacient in pacients %}
+                            <option value="{{ pacient.id }}">{{ pacient.name }} {{ pacient.lastname }} ({{ pacient.email ?: 'Sin email' }})</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label font-weight-bold">Médico *</label>
+                    <select name="medic_id" class="form-select" required>
+                        <option value="">-- Seleccionar Médico --</option>
+                        {% for medic in medics %}
+                            <option value="{{ medic.id }}">Dr. {{ medic.name }} {{ medic.lastname }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="row g-3 mb-3">
+                <div class="col-md-4">
+                    <label class="form-label font-weight-bold">Precio de Consulta ($)</label>
+                    <input type="number" step="0.01" name="price" class="form-control" placeholder="0.00" value="0.00">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label font-weight-bold">Estatus de la Cita</label>
+                    <select name="status_id" class="form-select">
+                        {% for status in statuses %}
+                            <option value="{{ status.id }}">{{ status.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label font-weight-bold">Estado de Pago</label>
+                    <select name="payment_id" class="form-select">
+                        {% for payment in payments %}
+                            <option value="{{ payment.id }}">{{ payment.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label font-weight-bold">Síntomas / Motivo de Consulta</label>
+                <textarea name="symtoms" class="form-control" rows="2" placeholder="Describa los síntomas reportados por el paciente..."></textarea>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label font-weight-bold">Notas Adicionales</label>
+                <textarea name="note" class="form-control" rows="2" placeholder="Observaciones o notas internas..."></textarea>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2">
+                <a href="{{ base_url }}/reservations" class="btn btn-outline-secondary px-4">Cancelar</a>
+                <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-1"></i> Agendar Cita</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

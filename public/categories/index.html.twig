@@ -1,0 +1,55 @@
+{% extends "layouts/main.html.twig" %}
+
+{% block title %}Especialidades Médicas - BookMedik v5{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><span>Gestión Médica</span></li>
+<li class="breadcrumb-item active"><span>Especialidades</span></li>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h3 class="fw-bold mb-1">Especialidades Médicas</h3>
+        <p class="text-body-secondary mb-0">Categorías de especialidad para clasificar al personal médico</p>
+    </div>
+    <a href="{{ base_url }}/category/new" class="btn btn-primary shadow-sm">
+        <i class="bi bi-tag-fill me-2"></i> + Nueva Especialidad
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle mb-0">
+                <thead class="bg-body-tertiary">
+                    <tr>
+                        <th class="ps-4">ID</th>
+                        <th>Nombre de la Especialidad</th>
+                        <th class="text-end pe-4">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in categories %}
+                    <tr>
+                        <td class="ps-4 text-body-secondary fw-semibold">#{{ category.id }}</td>
+                        <td class="fw-bold fs-6"><i class="bi bi-tag me-2 text-primary"></i> {{ category.name }}</td>
+                        <td class="text-end pe-4">
+                            <a href="{{ base_url }}/category/{{ category.id }}/edit" class="btn btn-sm btn-outline-primary me-1" title="Editar"><i class="bi bi-pencil"></i> Editar</a>
+                            <form action="{{ base_url }}/category/{{ category.id }}/delete" method="POST" class="d-inline" onsubmit="return confirm('¿Seguro que deseas eliminar esta especialidad?');">
+                                {{ csrf_field() }}
+                                <button type="submit" class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-trash"></i> Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center py-4 text-body-secondary">No hay especialidades registradas.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

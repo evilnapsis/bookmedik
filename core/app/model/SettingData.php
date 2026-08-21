@@ -1,68 +1,54 @@
 <?php
-class SettingData {
+
+class SettingData extends LbModel {
 	public static $tablename = "setting";
 
-
-	public function __construct(){
-		$this->title = "";
-		$this->content = "";
-		$this->image = "";
-		$this->user_id = "";
-		$this->is_public = "0";
-		$this->created_at = "NOW()";
-	}
-
-	public function add(){
-		$sql = "insert into ".self::$tablename." (name,label,val) ";
-		$sql .= "value (\"$this->name\",\"$this->label\",\"$this->val\")";
-		Executor::doit($sql);
-	}
-
-	public static function delById($id){
-		$sql = "delete from ".self::$tablename." where id=$id";
-		Executor::doit($sql);
-	}
-	public function del(){
-		$sql = "delete from ".self::$tablename." where id=$this->id";
-		Executor::doit($sql);
-	}
-
-// partiendo de que ya tenemos creado un objecto SettingData previamente utilizamos el contexto
-	public function update(){
-		$sql = "update ".self::$tablename." set name=\"$this->name\",label=\"$this->label\",is_active=\"$this->is_active\" where id=$this->id";
-		Executor::doit($sql);
-	}
-
-	public static function updateValFromName($name,$val){
-		$sql = "update ".self::$tablename." set val=\"$val\" where name=\"$name\"";		
-		Executor::doit($sql);
-	}
+	public $id;
+	public $name;
+	public $label;
+	public $kind;
+	public $val;
+	public $cfg_id;
 
 	public static function getById($id){
-		$sql = "select * from ".self::$tablename." where id=$id";
-		$query = Executor::doit($sql);
-		return Model::one($query[0],new SettingData());
+		return static::find($id);
 	}
 
-	public static function getByPreffix($id){
-		$sql = "select * from ".self::$tablename." where name=\"$id\"";
-		$query = Executor::doit($sql);
-		return Model::one($query[0],new SettingData());
+	public static function getByName(string $name) {
+		self::ensureTableExists();
+		return static::whereOne('name', $name);
 	}
 
-
-	public static function getAll(){
-		$sql = "select * from ".self::$tablename;
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new SettingData());
+	public static function updateValFromName(string $name, string $val): bool {
+		self::ensureTableExists();
+		$db = static::getDb();
+		$stmt = $db->prepare("UPDATE " . static::$tablename . " SET val = :val WHERE name = :name");
+		return $stmt->execute(['val' => $val, 'name' => $name]);
 	}
 
-	public static function getPublics(){
-		$sql = "select * from ".self::$tablename." where is_active=1";
-		$query = Executor::doit($sql);
-		return Model::many($query[0],new SettingData());
+	public static function ensureTableExists(): void {
+		$db = static::getDb();
+		$db->exec("CREATE TABLE IF NOT EXISTS setting (
+			id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+			name VARCHAR(100) NOT NULL UNIQUE,
+			label VARCHAR(255) NOT NULL,
+			kind INT DEFAULT 1,
+			val TEXT,
+			cfg_id INT DEFAULT 1
+		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+		$stmt = $db->query("SELECT COUNT(*) FROM setting");
+		if ($stmt->fetchColumn() == 0) {
+			$db->exec("INSERT INTO setting (name, label, val) VALUES 
+				('title', 'Título del Sistema', 'BookMedik v5'),
+				('admin_email', 'Correo Administrador', 'admin@bookmedik.com')
+			;");
+		}
 	}
 
+	public static function getAll(): array {
+		self::ensureTableExists();
+		return static::all();
+	}
 }
-
 ?>
