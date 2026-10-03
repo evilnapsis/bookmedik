@@ -2,135 +2,508 @@
 
 {% block title %}Dashboard Principal - BookMedik v5{% endblock %}
 
+{% block header_title %}
+<i class="bi bi-speedometer2 text-primary me-2"></i> Panel de Control Médico
+{% endblock %}
+
 {% block breadcrumb %}
 <li class="breadcrumb-item active"><span>Dashboard</span></li>
 {% endblock %}
 
 {% block content %}
-<div class="d-flex justify-content-between align-items-center mb-4">
+<!-- Cabecera del Dashboard -->
+<div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
     <div>
-        <h3 class="fw-bold mb-1">Panel de Control</h3>
-        <p class="text-body-secondary mb-0">Resumen operativo del sistema médico</p>
+        <h3 class="fw-bold mb-1 d-flex align-items-center">
+            <i class="bi bi-speedometer2 text-primary me-2"></i> Panel de Control Médico
+        </h3>
+        <p class="text-body-secondary mb-0">Resumen operativo, métricas clínicas y análisis de consultas</p>
     </div>
-    <a href="{{ base_url }}/reservation/new" class="btn btn-primary shadow-sm">
-        <i class="bi bi-calendar-plus me-2"></i> + Agendar Nueva Cita
-    </a>
+    <div class="d-flex gap-2">
+        <a href="{{ base_url }}/calendar" class="btn btn-outline-primary shadow-sm">
+            <i class="bi bi-calendar-week me-1"></i> Ver Calendario
+        </a>
+        <a href="{{ base_url }}/reservation/new" class="btn btn-primary shadow-sm">
+            <i class="bi bi-calendar-plus me-1"></i> + Agendar Nueva Cita
+        </a>
+    </div>
 </div>
 
-<!-- Tarjetas Estadística KPIs Estilo CoreUI -->
+<!-- Tarjetas Estadísticas KPIs (6 Widgets Contadores Reordenados) -->
+<div class="row g-3 mb-4">
+    <!-- 1. Widget 1: Color Morado (Citas de Hoy) -->
+    <div class="col-sm-6 col-md-4 col-xl-2">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white h-100" style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%);">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-white-50 text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Citas Hoy</span>
+                    <h3 class="fw-bold my-1 text-white">{{ today_count }}</h3>
+                    <div class="small text-white-50" style="font-size: 0.75rem;">Agenda de hoy</div>
+                </div>
+                <div class="rounded-3 bg-white bg-opacity-10 p-2">
+                    <i class="bi bi-calendar2-day-fill fs-4 text-white"></i>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-10 px-3 py-2 mt-auto">
+                <a href="{{ base_url }}/calendar" class="text-white text-decoration-none small fw-semibold" style="font-size: 0.75rem;">Ver agenda <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. Widget 2: Color Verde (Total Citas) -->
+    <div class="col-sm-6 col-md-4 col-xl-2">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white h-100" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-white-50 text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Total Citas</span>
+                    <h3 class="fw-bold my-1 text-white">{{ total_reservations }}</h3>
+                    <div class="small text-white-50" style="font-size: 0.75rem;">En el sistema</div>
+                </div>
+                <div class="rounded-3 bg-white bg-opacity-10 p-2">
+                    <i class="bi bi-journal-medical fs-4 text-white"></i>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-10 px-3 py-2 mt-auto">
+                <a href="{{ base_url }}/reports" class="text-white text-decoration-none small fw-semibold" style="font-size: 0.75rem;">Reportes <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Widget 3: Color Azul (Pacientes) -->
+    <div class="col-sm-6 col-md-4 col-xl-2">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white h-100" style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-white-50 text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Pacientes</span>
+                    <h3 class="fw-bold my-1 text-white">{{ pacients_count }}</h3>
+                    <div class="small text-white-50" style="font-size: 0.75rem;">Directorio activo</div>
+                </div>
+                <div class="rounded-3 bg-white bg-opacity-10 p-2">
+                    <i class="bi bi-people-fill fs-4 text-white"></i>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-10 px-3 py-2 mt-auto">
+                <a href="{{ base_url }}/pacients" class="text-white text-decoration-none small fw-semibold" style="font-size: 0.75rem;">Gestionar <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Widget 4: Color Azul Cielo (Médicos) -->
+    <div class="col-sm-6 col-md-4 col-xl-2">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white h-100" style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-white-50 text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Médicos</span>
+                    <h3 class="fw-bold my-1 text-white">{{ medics_count }}</h3>
+                    <div class="small text-white-50" style="font-size: 0.75rem;">Especialistas</div>
+                </div>
+                <div class="rounded-3 bg-white bg-opacity-10 p-2">
+                    <i class="bi bi-person-badge-fill fs-4 text-white"></i>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-10 px-3 py-2 mt-auto">
+                <a href="{{ base_url }}/medics" class="text-white text-decoration-none small fw-semibold" style="font-size: 0.75rem;">Directorio <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 5. Widget 5: Color Amarillo (Citas Próximas) -->
+    <div class="col-sm-6 col-md-4 col-xl-2">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white h-100" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-white-50 text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Próximas</span>
+                    <h3 class="fw-bold my-1 text-white">{{ upcoming_count }}</h3>
+                    <div class="small text-white-50" style="font-size: 0.75rem;">Desde hoy</div>
+                </div>
+                <div class="rounded-3 bg-white bg-opacity-10 p-2">
+                    <i class="bi bi-calendar-check-fill fs-4 text-white"></i>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-10 px-3 py-2 mt-auto">
+                <a href="{{ base_url }}/reservations" class="text-white text-decoration-none small fw-semibold" style="font-size: 0.75rem;">Consultar <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 6. Widget 6: Color Rojo (Citas Pendientes) -->
+    <div class="col-sm-6 col-md-4 col-xl-2">
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden text-white h-100" style="background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);">
+            <div class="card-body p-3 d-flex justify-content-between align-items-start">
+                <div>
+                    <span class="text-white-50 text-uppercase fw-semibold" style="font-size: 0.7rem; letter-spacing: 0.05em;">Pendientes</span>
+                    <h3 class="fw-bold my-1 text-white">{{ pending_count }}</h3>
+                    <div class="small text-white-50" style="font-size: 0.75rem;">Por atender</div>
+                </div>
+                <div class="rounded-3 bg-white bg-opacity-10 p-2">
+                    <i class="bi bi-hourglass-split fs-4 text-white"></i>
+                </div>
+            </div>
+            <div class="bg-black bg-opacity-10 px-3 py-2 mt-auto">
+                <a href="{{ base_url }}/reservations?filter=pending" class="text-white text-decoration-none small fw-semibold" style="font-size: 0.75rem;">Atender <i class="bi bi-arrow-right ms-1"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Fila 1 de Gráficas: Tendencia Mensual y Distribución de Estatus -->
 <div class="row g-4 mb-4">
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-primary shadow-sm border-0">
-            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
+    <!-- Gráfica 1: Tendencia Mensual de Citas -->
+    <div class="col-xl-8">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
                 <div>
-                    <div class="fs-4 fw-semibold">{{ pacients_count }}</div>
-                    <div>Pacientes Registrados</div>
+                    <h5 class="fw-bold mb-1 text-body-emphasis">
+                        <i class="bi bi-graph-up-arrow text-primary me-2"></i> Evolución Mensual de Citas
+                    </h5>
+                    <p class="text-body-secondary small mb-0">Comparativa de citas atendidas vs programadas por mes</p>
                 </div>
-                <div class="fs-1 opacity-50"><i class="bi bi-people-fill"></i></div>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill">
+                    <i class="bi bi-calendar3 me-1"></i> Histórico Reciente
+                </span>
             </div>
-            <div class="px-3 pb-3 pt-2">
-                <a href="{{ base_url }}/pacients" class="text-white text-decoration-none small">Ver directorio <i class="bi bi-arrow-right me-1"></i></a>
+            <div class="card-body p-4">
+                <div style="position: relative; height: 320px; width: 100%;">
+                    <canvas id="monthlyChart"></canvas>
+                </div>
+            </div>
+            <div class="card-footer bg-body-tertiary border-0 px-4 py-3 rounded-bottom-3">
+                <div class="row text-center g-2">
+                    <div class="col-4 border-end">
+                        <div class="text-body-secondary small">Total Citas</div>
+                        <div class="fs-6 fw-bold text-primary">{{ total_reservations }}</div>
+                    </div>
+                    <div class="col-4 border-end">
+                        <div class="text-body-secondary small">Tasa de Atención</div>
+                        <div class="fs-6 fw-bold text-success">{{ attendance_rate }}%</div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-body-secondary small">Facturado Pagado</div>
+                        <div class="fs-6 fw-bold text-dark">${{ total_revenue|number_format(2, '.', ',') }}</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-info shadow-sm border-0">
-            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                <div>
-                    <div class="fs-4 fw-semibold">{{ medics_count }}</div>
-                    <div>Personal Médico</div>
+
+    <!-- Gráfica 2: Distribución por Estatus -->
+    <div class="col-xl-4">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0">
+                <h5 class="fw-bold mb-1 text-body-emphasis">
+                    <i class="bi bi-pie-chart text-info me-2"></i> Estatus de Citas
+                </h5>
+                <p class="text-body-secondary small mb-0">Distribución porcentual por estado</p>
+            </div>
+            <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
+                <div style="position: relative; height: 260px; width: 100%; max-width: 280px;">
+                    <canvas id="statusChart"></canvas>
                 </div>
-                <div class="fs-1 opacity-50"><i class="bi bi-person-badge-fill"></i></div>
             </div>
-            <div class="px-3 pb-3 pt-2">
-                <a href="{{ base_url }}/medics" class="text-white text-decoration-none small">Ver personal <i class="bi bi-arrow-right me-1"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-warning shadow-sm border-0">
-            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                <div>
-                    <div class="fs-4 fw-semibold">{{ upcoming_count }}</div>
-                    <div>Citas Próximas</div>
+            <div class="card-footer bg-body-tertiary border-0 px-4 py-3 rounded-bottom-3">
+                <div class="d-flex justify-content-around text-center small">
+                    {% for st in status_summary %}
+                    <div>
+                        <span class="d-inline-block rounded-circle me-1" style="width: 10px; height: 10px; background-color: {{ st.id == 1 ? '#f59e0b' : (st.id == 2 ? '#10b981' : (st.id == 3 ? '#64748b' : '#ef4444')) }};"></span>
+                        <span class="text-body-secondary">{{ st.name }}:</span>
+                        <strong class="ms-1">{{ st.total }}</strong>
+                    </div>
+                    {% endfor %}
                 </div>
-                <div class="fs-1 opacity-50"><i class="bi bi-calendar-check-fill"></i></div>
-            </div>
-            <div class="px-3 pb-3 pt-2">
-                <a href="{{ base_url }}/reservations" class="text-white text-decoration-none small">Ver agenda <i class="bi bi-arrow-right me-1"></i></a>
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-6 col-lg-3">
-        <div class="card text-white bg-danger shadow-sm border-0">
-            <div class="card-body pb-0 d-flex justify-content-between align-items-start">
-                <div>
-                    <div class="fs-4 fw-semibold">{{ pending_count }}</div>
-                    <div>Citas Pendientes</div>
-                </div>
-                <div class="fs-1 opacity-50"><i class="bi bi-hourglass-split"></i></div>
-            </div>
-            <div class="px-3 pb-3 pt-2">
-                <a href="{{ base_url }}/reservations?filter=pending" class="text-white text-decoration-none small">Atender pendientes <i class="bi bi-arrow-right me-1"></i></a>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Tabla de Próximas Citas -->
-<div class="card mb-4 border-0 shadow-sm">
-    <div class="card-header bg-body-tertiary py-3 d-flex justify-content-between align-items-center">
-        <h5 class="card-title mb-0 fw-bold"><i class="bi bi-clock-history me-2 text-primary"></i> Próximas Citas Agendadas</h5>
-        <a href="{{ base_url }}/reservations" class="btn btn-sm btn-outline-primary rounded-pill px-3">Ver Todas</a>
+<!-- Fila 2 de Gráficas y Datos: Especialidades y Próximas Citas -->
+<div class="row g-4 mb-4">
+    <!-- Gráfica 3: Citas por Especialidad Médica -->
+    <div class="col-xl-5">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="fw-bold mb-1 text-body-emphasis">
+                        <i class="bi bi-hospital text-danger me-2"></i> Especialidades más Solicitadas
+                    </h5>
+                    <p class="text-body-secondary small mb-0">Demanda de pacientes según área médica</p>
+                </div>
+                <a href="{{ base_url }}/categories" class="btn btn-sm btn-outline-secondary rounded-pill px-3">Ver Todas</a>
+            </div>
+            <div class="card-body p-4">
+                <div style="position: relative; height: 320px; width: 100%;">
+                    <canvas id="specialtyChart"></canvas>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="card-body p-0">
-        <div class="table-responsive">
-            <table class="table align-middle mb-0 table-hover">
-                <thead class="bg-body-tertiary">
-                    <tr>
-                        <th class="ps-4">Asunto / Cita</th>
-                        <th>Paciente</th>
-                        <th>Médico</th>
-                        <th>Fecha y Hora</th>
-                        <th>Estatus</th>
-                        <th class="text-end pe-4">Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for reservation in recent_reservations %}
-                    <tr>
-                        <td class="ps-4 fw-semibold">{{ reservation.title ?: 'Cita Médica' }}</td>
-                        <td>
-                            {% set pacient = reservation.getPacient() %}
-                            {{ pacient ? pacient.name ~ ' ' ~ pacient.lastname : 'N/A' }}
-                        </td>
-                        <td>
-                            {% set medic = reservation.getMedic() %}
-                            {{ medic ? 'Dr. ' ~ medic.name ~ ' ' ~ medic.lastname : 'N/A' }}
-                        </td>
-                        <td>
-                            <i class="bi bi-calendar3 me-1 text-body-secondary"></i> {{ reservation.date_at }}
-                            <i class="bi bi-clock me-1 text-body-secondary ms-2"></i> {{ reservation.time_at }}
-                        </td>
-                        <td>
-                            {% set status = reservation.getStatus() %}
-                            <span class="badge rounded-pill px-3 py-2 badge-status-{{ reservation.status_id }}">
-                                {{ status ? status.name : 'Pendiente' }}
-                            </span>
-                        </td>
-                        <td class="text-end pe-4">
-                            <a href="{{ base_url }}/reservation/{{ reservation.id }}/pdf" class="btn btn-sm btn-outline-danger me-1" target="_blank" title="Imprimir PDF"><i class="bi bi-file-pdf"></i></a>
-                            <a href="{{ base_url }}/reservation/{{ reservation.id }}/edit" class="btn btn-sm btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
-                        </td>
-                    </tr>
-                    {% else %}
-                    <tr>
-                        <td colspan="6" class="text-center py-4 text-body-secondary">No hay citas próximas agendadas.</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+
+    <!-- Tabla de Próximas Citas -->
+    <div class="col-xl-7">
+        <div class="card border-0 shadow-sm rounded-3 h-100">
+            <div class="card-header bg-transparent border-0 pt-4 px-4 pb-2 d-flex justify-content-between align-items-center">
+                <div>
+                    <h5 class="card-title mb-1 fw-bold text-body-emphasis">
+                        <i class="bi bi-clock-history text-primary me-2"></i> Próximas Citas en Agenda
+                    </h5>
+                    <p class="text-body-secondary small mb-0">Pacientes agendados para consulta próxima</p>
+                </div>
+                <a href="{{ base_url }}/reservations" class="btn btn-sm btn-outline-primary rounded-pill px-3">Ver Agenda Completa</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0 table-hover">
+                        <thead class="bg-body-tertiary text-body-secondary small text-uppercase">
+                            <tr>
+                                <th class="ps-4 py-3">Paciente / Motivo</th>
+                                <th class="py-3">Médico</th>
+                                <th class="py-3">Fecha y Hora</th>
+                                <th class="py-3">Estatus</th>
+                                <th class="text-end pe-4 py-3">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reservation in recent_reservations %}
+                            <tr>
+                                <td class="ps-4">
+                                    {% set pacient = reservation.getPacient() %}
+                                    <div class="fw-semibold text-body-emphasis">
+                                        {{ pacient ? pacient.name ~ ' ' ~ pacient.lastname : 'N/A' }}
+                                    </div>
+                                    <small class="text-body-secondary">{{ reservation.title ?: 'Consulta Médica' }}</small>
+                                </td>
+                                <td>
+                                    {% set medic = reservation.getMedic() %}
+                                    <span class="badge bg-light text-body border">
+                                        <i class="bi bi-person-fill me-1 text-primary"></i>
+                                        {{ medic ? 'Dr. ' ~ medic.name ~ ' ' ~ medic.lastname : 'N/A' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="small fw-semibold"><i class="bi bi-calendar3 text-primary me-1"></i> {{ reservation.date_at }}</div>
+                                    <div class="small text-body-secondary"><i class="bi bi-clock me-1"></i> {{ reservation.time_at }}</div>
+                                </td>
+                                <td>
+                                    {% set status = reservation.getStatus() %}
+                                    <span class="badge rounded-pill px-3 py-1 badge-status-{{ reservation.status_id }}">
+                                        {{ status ? status.name : 'Pendiente' }}
+                                    </span>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="{{ base_url }}/reservation/{{ reservation.id }}/pdf" class="btn btn-outline-danger" target="_blank" title="Imprimir PDF"><i class="bi bi-file-pdf"></i></a>
+                                        <a href="{{ base_url }}/reservation/{{ reservation.id }}/edit" class="btn btn-outline-primary" title="Editar"><i class="bi bi-pencil"></i></a>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-5 text-body-secondary">
+                                    <i class="bi bi-calendar-x fs-1 d-block mb-2 text-muted"></i>
+                                    No hay citas próximas agendadas en este momento.
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js UMD -->
+<script src="{{ base_url }}/assets/coreui/vendors/chart.js/js/chart.umd.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Configuración Global de Chart.js
+    Chart.defaults.font.family = "'Plus Jakarta Sans', sans-serif";
+    Chart.defaults.color = '#64748b';
+
+    // 1. Gráfica de Tendencia Mensual (Bar + Line)
+    var monthlyCtx = document.getElementById('monthlyChart');
+    if (monthlyCtx) {
+        var monthlyLabels = {{ chart_monthly_labels|raw }};
+        var monthlyCompleted = {{ chart_monthly_completed|raw }};
+        var monthlyPending = {{ chart_monthly_pending|raw }};
+        var monthlyTotal = {{ chart_monthly_total|raw }};
+
+        new Chart(monthlyCtx, {
+            type: 'bar',
+            data: {
+                labels: monthlyLabels,
+                datasets: [
+                    {
+                        type: 'line',
+                        label: 'Total Citas Registradas',
+                        data: monthlyTotal,
+                        borderColor: '#2563eb',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        borderWidth: 2.5,
+                        pointBackgroundColor: '#2563eb',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        tension: 0.35,
+                        fill: false,
+                        yAxisID: 'y'
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Citas Atendidas (Aplicadas)',
+                        data: monthlyCompleted,
+                        backgroundColor: '#10b981',
+                        borderRadius: 6,
+                        maxBarThickness: 32,
+                        yAxisID: 'y'
+                    },
+                    {
+                        type: 'bar',
+                        label: 'Citas Programadas / Pendientes',
+                        data: monthlyPending,
+                        backgroundColor: '#f59e0b',
+                        borderRadius: 6,
+                        maxBarThickness: 32,
+                        yAxisID: 'y'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            usePointStyle: true,
+                            boxWidth: 8,
+                            padding: 16,
+                            font: { size: 12, weight: '500' }
+                        }
+                    },
+                    tooltip: {
+                        padding: 12,
+                        cornerRadius: 8,
+                        boxPadding: 6
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 2 },
+                        grid: {
+                            color: 'rgba(226, 232, 240, 0.6)',
+                            borderDash: [4, 4]
+                        }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+
+    // 2. Gráfica de Estatus de Citas (Doughnut)
+    var statusCtx = document.getElementById('statusChart');
+    if (statusCtx) {
+        var statusLabels = {{ chart_status_labels|raw }};
+        var statusData = {{ chart_status_data|raw }};
+        var statusColors = {{ chart_status_colors|raw }};
+
+        new Chart(statusCtx, {
+            type: 'doughnut',
+            data: {
+                labels: statusLabels,
+                datasets: [{
+                    data: statusData,
+                    backgroundColor: statusColors,
+                    borderWidth: 2,
+                    borderColor: '#ffffff',
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '72%',
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        padding: 12,
+                        cornerRadius: 8,
+                        callbacks: {
+                            label: function(context) {
+                                var total = context.dataset.data.reduce(function(a, b) { return a + b; }, 0);
+                                var value = context.parsed;
+                                var percentage = total > 0 ? ((value / total) * 100).toFixed(1) : 0;
+                                return ' ' + context.label + ': ' + value + ' (' + percentage + '%)';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // 3. Gráfica de Citas por Especialidad (Horizontal Bar)
+    var specialtyCtx = document.getElementById('specialtyChart');
+    if (specialtyCtx) {
+        var specialtyLabels = {{ chart_specialty_labels|raw }};
+        var specialtyData = {{ chart_specialty_data|raw }};
+
+        var palette = ['#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'];
+
+        new Chart(specialtyCtx, {
+            type: 'bar',
+            data: {
+                labels: specialtyLabels,
+                datasets: [{
+                    label: 'Citas Registradas',
+                    data: specialtyData,
+                    backgroundColor: palette.slice(0, specialtyLabels.length),
+                    borderRadius: 6,
+                    maxBarThickness: 24
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        padding: 12,
+                        cornerRadius: 8
+                    }
+                },
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 },
+                        grid: {
+                            color: 'rgba(226, 232, 240, 0.6)',
+                            borderDash: [4, 4]
+                        }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                }
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

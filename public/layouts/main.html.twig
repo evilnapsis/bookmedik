@@ -24,18 +24,250 @@
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
         }
+
+        /* Sidebar Styling Modernizado */
+        #sidebar {
+            background: linear-gradient(180deg, #0b1325 0%, #0f172a 60%, #090e1a 100%) !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.08) !important;
+            box-shadow: 4px 0 20px rgba(0, 0, 0, 0.25);
+        }
+
+        #sidebar .sidebar-header {
+            background: rgba(11, 19, 37, 0.95) !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07) !important;
+            padding: 1.1rem 1.25rem;
+        }
+
         .sidebar-brand-full {
             font-weight: 700;
-            font-size: 1.25rem;
-            color: #fff;
+            font-size: 1.2rem;
+            color: #ffffff;
             text-decoration: none;
             display: flex;
             align-items: center;
+            letter-spacing: -0.01em;
         }
-        .badge-status-1 { background-color: #ffe69c; color: #7d5a00; }
-        .badge-status-2 { background-color: #c3e6cb; color: #155724; }
-        .badge-status-3 { background-color: #e2e3e5; color: #383d41; }
-        .badge-status-4 { background-color: #f5c6cb; color: #721c24; }
+
+        .sidebar-brand-full:hover {
+            color: #ffffff;
+        }
+
+        .sidebar-brand-badge {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: #ffffff;
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 6px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        #sidebar .sidebar-nav {
+            padding: 0.75rem 0.25rem;
+        }
+
+        #sidebar .sidebar-nav .nav-title {
+            color: #64748b !important;
+            font-size: 0.68rem !important;
+            font-weight: 700 !important;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            padding: 1.25rem 1.25rem 0.4rem 1.25rem;
+        }
+
+        #sidebar .sidebar-nav .nav-item {
+            margin: 2px 10px;
+        }
+
+        #sidebar .sidebar-nav .nav-link {
+            color: #94a3b8 !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 8px;
+            padding: 0.65rem 1rem;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid transparent;
+            text-decoration: none;
+        }
+
+        #sidebar .sidebar-nav .nav-link i {
+            color: #64748b !important;
+            font-size: 1.15rem;
+            margin-right: 0.85rem !important;
+            transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Hover State */
+        #sidebar .sidebar-nav .nav-link:hover {
+            background: rgba(255, 255, 255, 0.08) !important;
+            color: #f8fafc !important;
+            transform: translateX(4px);
+            border-color: rgba(255, 255, 255, 0.05);
+        }
+
+        #sidebar .sidebar-nav .nav-link:hover i {
+            color: #38bdf8 !important;
+        }
+
+        /* Active State */
+        #sidebar .sidebar-nav .nav-link.active,
+        #sidebar .sidebar-nav .nav-link:active {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+            color: #ffffff !important;
+            font-weight: 600 !important;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4) !important;
+            border-left: 3px solid #93c5fd !important;
+            transform: none !important;
+        }
+
+        #sidebar .sidebar-nav .nav-link.active i,
+        #sidebar .sidebar-nav .nav-link:active i {
+            color: #ffffff !important;
+        }
+
+        #sidebar .sidebar-footer {
+            background: rgba(11, 19, 37, 0.95) !important;
+            border-top: 1px solid rgba(255, 255, 255, 0.07) !important;
+        }
+
+        /* Sidebar Brand Narrow */
+        .sidebar-brand-narrow {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Reglas Específicas para Modo Narrow / Mini / Unfoldable */
+        #sidebar.sidebar-narrow,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) {
+            --cui-sidebar-narrow-width: 4.5rem;
+            width: 4.5rem !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-header,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-header {
+            padding: 0 !important;
+            justify-content: center !important;
+            align-items: center !important;
+            min-height: calc(4rem + 1px) !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-brand-full,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-brand-full {
+            display: none !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-brand-narrow,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-brand-narrow {
+            display: flex !important;
+            justify-content: center !important;
+            align-items: center !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-nav,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-nav .nav-item,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav .nav-item {
+            margin: 4px 6px !important;
+            display: flex !important;
+            justify-content: center !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-nav .nav-link,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav .nav-link {
+            padding: 0.75rem 0 !important;
+            justify-content: center !important;
+            text-align: center !important;
+            border-left: none !important;
+            border-radius: 8px !important;
+            width: 100% !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-nav .nav-link i,
+        #sidebar.sidebar-narrow .sidebar-nav .nav-link .nav-icon,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav .nav-link i,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav .nav-link .nav-icon {
+            margin: 0 !important;
+            padding: 0 !important;
+            font-size: 1.4rem !important;
+            width: 100% !important;
+            text-align: center !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+        }
+
+        #sidebar.sidebar-narrow .sidebar-nav .nav-link .nav-label,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav .nav-link .nav-label,
+        #sidebar.sidebar-narrow .sidebar-nav .nav-title,
+        #sidebar.sidebar-narrow-unfoldable:not(:hover) .sidebar-nav .nav-title {
+            display: none !important;
+        }
+
+        /* Cuando el cursor pasa por encima en modo unfoldable, se expande completamente */
+        #sidebar.sidebar-narrow-unfoldable:hover {
+            width: 16rem !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-header {
+            padding: 1.1rem 1.25rem !important;
+            justify-content: space-between !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-brand-full {
+            display: flex !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-brand-narrow {
+            display: none !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-nav .nav-item {
+            margin: 2px 10px !important;
+            display: block !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-nav .nav-link {
+            padding: 0.65rem 1rem !important;
+            justify-content: flex-start !important;
+            text-align: left !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-nav .nav-link i,
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-nav .nav-link .nav-icon {
+            margin-right: 0.85rem !important;
+            font-size: 1.15rem !important;
+            width: auto !important;
+            display: inline-flex !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-nav .nav-link .nav-label {
+            display: inline !important;
+        }
+
+        #sidebar.sidebar-narrow-unfoldable:hover .sidebar-nav .nav-title {
+            display: block !important;
+        }
+
+        /* Badges de estatus refinados */
+        .badge-status-1 { background-color: #fef3c7; color: #92400e; font-weight: 600; }
+        .badge-status-2 { background-color: #d1fae5; color: #065f46; font-weight: 600; }
+        .badge-status-3 { background-color: #f1f5f9; color: #475569; font-weight: 600; }
+        .badge-status-4 { background-color: #fee2e2; color: #991b1b; font-weight: 600; }
     </style>
 </head>
 <body>
@@ -44,7 +276,10 @@
         <div class="sidebar-header border-bottom">
             <a class="sidebar-brand-full" href="{{ base_url }}/">
                 <i class="bi bi-heart-pulse-fill text-danger me-2 fs-3"></i>
-                <span>BookMedik <span class="badge bg-primary text-white fs-6 ms-1">v5</span></span>
+                <span>BookMedik <span class="sidebar-brand-badge ms-1">v5</span></span>
+            </a>
+            <a class="sidebar-brand-narrow" href="{{ base_url }}/" title="BookMedik v5">
+                <i class="bi bi-heart-pulse-fill text-danger fs-2"></i>
             </a>
             <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()"></button>
         </div>
@@ -52,67 +287,76 @@
         <ul class="sidebar-nav" data-coreui="navigation" data-simplebar>
             {% if session.user_id %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/">
-                    <i class="bi bi-speedometer2 me-3 fs-5"></i> Dashboard
+                <a class="nav-link" href="{{ base_url }}/" title="Dashboard">
+                    <i class="nav-icon bi bi-speedometer2 fs-5"></i> <span class="nav-label">Dashboard</span>
                 </a>
             </li>
             <li class="nav-title">Gestión Médica</li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/reservations">
-                    <i class="bi bi-calendar-event me-3 fs-5"></i> Citas / Agenda
+                <a class="nav-link" href="{{ base_url }}/reservations" title="Citas / Agenda">
+                    <i class="nav-icon bi bi-calendar-event fs-5"></i> <span class="nav-label">Citas / Agenda</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/calendar">
-                    <i class="bi bi-calendar-week me-3 fs-5"></i> Calendario
+                <a class="nav-link" href="{{ base_url }}/calendar" title="Calendario">
+                    <i class="nav-icon bi bi-calendar-week fs-5"></i> <span class="nav-label">Calendario</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/pacients">
-                    <i class="bi bi-people me-3 fs-5"></i> Pacientes
+                <a class="nav-link" href="{{ base_url }}/pacients" title="Pacientes">
+                    <i class="nav-icon bi bi-people fs-5"></i> <span class="nav-label">Pacientes</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/medics">
-                    <i class="bi bi-person-badge me-3 fs-5"></i> Médicos
+                <a class="nav-link" href="{{ base_url }}/medics" title="Médicos">
+                    <i class="nav-icon bi bi-person-badge fs-5"></i> <span class="nav-label">Médicos</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/categories">
-                    <i class="bi bi-tags me-3 fs-5"></i> Especialidades
+                <a class="nav-link" href="{{ base_url }}/categories" title="Especialidades">
+                    <i class="nav-icon bi bi-tags fs-5"></i> <span class="nav-label">Especialidades</span>
                 </a>
             </li>
             <li class="nav-title">Análisis y Ajustes</li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/reports">
-                    <i class="bi bi-bar-chart-line me-3 fs-5"></i> Reportes
+                <a class="nav-link" href="{{ base_url }}/reports" title="Reportes">
+                    <i class="nav-icon bi bi-bar-chart-line fs-5"></i> <span class="nav-label">Reportes</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/users">
-                    <i class="bi bi-shield-lock me-3 fs-5"></i> Usuarios
+                <a class="nav-link" href="{{ base_url }}/users" title="Usuarios">
+                    <i class="nav-icon bi bi-shield-lock fs-5"></i> <span class="nav-label">Usuarios</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="{{ base_url }}/settings">
-                    <i class="bi bi-gear me-3 fs-5"></i> Ajustes Generales
+                <a class="nav-link" href="{{ base_url }}/settings" title="Ajustes Generales">
+                    <i class="nav-icon bi bi-gear fs-5"></i> <span class="nav-label">Ajustes Generales</span>
                 </a>
             </li>
             {% endif %}
         </ul>
 
         <div class="sidebar-footer border-top d-none d-md-flex">
-            <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable"></button>
+            <button class="sidebar-toggler" type="button" data-coreui-toggle="unfoldable" title="Modo Estrecho"></button>
         </div>
     </div>
 
     <!-- Wrapper Contenido Principal -->
     <div class="wrapper d-flex flex-column min-vh-100">
-        <header class="header header-sticky p-0 mb-4">
-            <div class="container-fluid border-bottom px-4 py-2">
-                <button class="header-toggler" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" style="margin-inline-start: -14px">
-                    <i class="bi bi-list fs-3"></i>
-                </button>
+        <header class="header header-sticky p-0 mb-4 bg-white border-bottom shadow-sm">
+            <div class="container-fluid px-4 py-2 d-flex align-items-center justify-content-between">
+                <!-- Título de sección alineado a la izquierda con el Toggler -->
+                <div class="d-flex align-items-center">
+                    <button class="header-toggler me-3" type="button" onclick="coreui.Sidebar.getInstance(document.querySelector('#sidebar')).toggle()" title="Alternar menú">
+                        <i class="bi bi-list fs-3"></i>
+                    </button>
+                    <div class="vr h-50 me-3 text-body-secondary opacity-25 d-none d-sm-block"></div>
+                    <h5 class="mb-0 fw-bold text-body-emphasis d-flex align-items-center">
+                        {% block header_title %}
+                            <i class="bi bi-speedometer2 text-primary me-2"></i> Panel de Control
+                        {% endblock %}
+                    </h5>
+                </div>
 
                 <ul class="header-nav ms-auto align-items-center">
                     <!-- Selector de Tema (Claro / Oscuro / Auto) -->
@@ -164,7 +408,7 @@
             </div>
 
             <!-- Breadcrumb Navigation -->
-            <div class="container-fluid px-4 py-2 bg-body-tertiary border-bottom">
+            <div class="container-fluid px-4 py-2 bg-body-tertiary border-top">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb my-0">
                         <li class="breadcrumb-item"><a href="{{ base_url }}/" class="text-decoration-none">BookMedik</a></li>
@@ -176,9 +420,9 @@
             </div>
         </header>
 
-        <!-- Body Contenido de la Página -->
+        <!-- Body Contenido de la Página (Ocupa todo el ancho disponible) -->
         <div class="body flex-grow-1">
-            <div class="container-lg px-4">
+            <div class="container-fluid px-4 py-2">
                 {% block content %}{% endblock %}
             </div>
         </div>
@@ -212,6 +456,47 @@
                 timerProgressBar: true
             });
         {% endfor %}
+    </script>
+
+    <!-- Script para detectar y marcar el elemento activo en el Sidebar dinámicamente -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var currentPath = window.location.pathname.replace(/\/+$/, '');
+            var navLinks = document.querySelectorAll('#sidebar .sidebar-nav .nav-link');
+            var matched = false;
+
+            navLinks.forEach(function(link) {
+                link.classList.remove('active');
+            });
+
+            // Ordenar por longitud de href descendente para coincidencias más específicas primero
+            var sortedLinks = Array.from(navLinks).sort(function(a, b) {
+                return (b.getAttribute('href') || '').length - (a.getAttribute('href') || '').length;
+            });
+
+            for (var i = 0; i < sortedLinks.length; i++) {
+                var link = sortedLinks[i];
+                var href = link.getAttribute('href');
+                if (!href) continue;
+                
+                var linkPath = new URL(link.href, window.location.origin).pathname.replace(/\/+$/, '');
+
+                if (linkPath === currentPath) {
+                    link.classList.add('active');
+                    matched = true;
+                    break;
+                } else if (linkPath !== '' && linkPath !== '/' && currentPath.indexOf(linkPath) === 0) {
+                    link.classList.add('active');
+                    matched = true;
+                    break;
+                }
+            }
+
+            if (!matched && navLinks.length > 0) {
+                // Si estamos en la página de inicio o raíz
+                navLinks[0].classList.add('active');
+            }
+        });
     </script>
 
     {% block scripts %}{% endblock %}

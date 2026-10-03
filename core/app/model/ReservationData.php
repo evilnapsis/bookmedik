@@ -72,6 +72,12 @@ class ReservationData extends LbModel {
 		return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
 	}
 
+	public static function getToday(): array {
+		$db = static::getDb();
+		$stmt = $db->query("SELECT * FROM " . static::$tablename . " WHERE DATE(date_at) = CURDATE() ORDER BY time_at ASC");
+		return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+	}
+
 	public static function getOld(): array {
 		$db = static::getDb();
 		$stmt = $db->query("SELECT * FROM " . static::$tablename . " WHERE DATE(date_at) < CURDATE() ORDER BY date_at DESC, time_at DESC");
@@ -130,6 +136,58 @@ class ReservationData extends LbModel {
 		$stmt = $db->prepare($sql);
 		$stmt->execute($params);
 		return $stmt->fetchAll(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, static::class);
+	}
+
+	public static function getStatusSummary(): array {
+		$db = static::getDb();
+		$sql = "SELECT s.id, s.name, COUNT(r.id) as total 
+				FROM status s 
+				LEFT JOIN reservation r ON s.id = r.status_id 
+				GROUP BY s.id, s.name 
+				ORDER BY s.id ASC";
+		$stmt = $db->query($sql);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public static function getMonthlySummary(int $limit = 6): array {
+		$db = static::getDb();
+		$sql = "SELECT DATE_FORMAT(date_at, '%Y-%m') as period, 
+					   COUNT(*) as total_appointments,
+					   SUM(CASE WHEN status_id = 2 THEN 1 ELSE 0 END) as completed_appointments,
+					   SUM(CASE WHEN status_id = 1 THEN 1 ELSE 0 END) as pending_appointments,
+					   SUM(CASE WHEN status_id = 4 THEN 1 ELSE 0 END) as cancelled_appointments,
+					   COALESCE(SUM(price), 0) as total_revenue
+				FROM " . static::$tablename . "
+				WHERE date_at IS NOT NULL AND date_at != ''
+				GROUP BY period
+				ORDER BY period ASC";
+		$stmt = $db->query($sql);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public static function getSpecialtySummary(int $limit = 6): array {
+		$db = static::getDb();
+		$sql = "SELECT c.id, c.name, COUNT(r.id) as total, COALESCE(SUM(r.price), 0) as revenue
+				FROM category c
+				JOIN medic m ON c.id = m.category_id
+				JOIN reservation r ON m.id = r.medic_id
+				GROUP BY c.id, c.name
+				ORDER BY total DESC
+				LIMIT " . (int)$limit;
+		$stmt = $db->query($sql);
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public static function getKpiSummary(): array {
+		$db = static::getDb();
+		$sql = "SELECT 
+					COUNT(*) as total_reservations,
+					COALESCE(SUM(CASE WHEN payment_id = 2 THEN price ELSE 0 END), 0) as total_paid,
+					COALESCE(SUM(price), 0) as total_billed,
+					COALESCE(AVG(price), 0) as average_ticket
+				FROM " . static::$tablename;
+		$stmt = $db->query($sql);
+		return $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 	}
 }
 ?>

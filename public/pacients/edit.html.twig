@@ -1,91 +1,344 @@
 {% extends "layouts/main.html.twig" %}
 
-{% block title %}Editar Paciente - BookMedik v5{% endblock %}
+{% block title %}Editar Paciente: {{ pacient.name }} {{ pacient.lastname }} - BookMedik v5{% endblock %}
+
+{% block header_title %}
+<i class="bi bi-person-gear text-primary me-2"></i> Editar Paciente
+{% endblock %}
 
 {% block breadcrumb %}
-<li class="breadcrumb-item"><a href="{{ base_url }}/pacients">Pacientes</a></li>
-<li class="breadcrumb-item active"><span>Editar Paciente</span></li>
+<li class="breadcrumb-item"><a href="{{ base_url }}/pacients" class="text-decoration-none">Pacientes</a></li>
+<li class="breadcrumb-item"><a href="{{ base_url }}/pacient/{{ pacient.id }}" class="text-decoration-none">{{ pacient.name }} {{ pacient.lastname }}</a></li>
+<li class="breadcrumb-item active"><span>Editar</span></li>
 {% endblock %}
 
 {% block content %}
-<div class="mb-4">
-    <a href="{{ base_url }}/pacients" class="text-decoration-none text-body-secondary"><i class="bi bi-arrow-left me-1"></i> Volver a Pacientes</a>
-    <h3 class="fw-bold mt-2">Editar Paciente: {{ pacient.name }} {{ pacient.lastname }}</h3>
-</div>
+<form action="{{ base_url }}/pacient/{{ pacient.id }}/update" method="POST" id="editPatientForm">
+    {{ csrf_field() }}
 
-<div class="card border-0 shadow-sm mb-4">
-    <div class="card-body p-4">
-        <form action="{{ base_url }}/pacient/{{ pacient.id }}/update" method="POST">
-            {{ csrf_field() }}
-
-            <div class="row g-3 mb-3">
-                <div class="col-md-4">
-                    <label class="form-label font-weight-bold">No. Expediente / ID</label>
-                    <input type="text" name="no" class="form-control" value="{{ pacient.no }}">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label font-weight-bold">Nombre *</label>
-                    <input type="text" name="name" class="form-control" required value="{{ pacient.name }}">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label font-weight-bold">Apellido *</label>
-                    <input type="text" name="lastname" class="form-control" required value="{{ pacient.lastname }}">
-                </div>
+    <!-- Cabecera de la Página -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+        <div>
+            <div class="d-flex align-items-center gap-2 mb-1">
+                <a href="{{ base_url }}/pacient/{{ pacient.id }}" class="btn btn-sm btn-outline-secondary rounded-pill px-3 shadow-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Volver al Expediente
+                </a>
+                <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-3 py-1">Expediente #{{ pacient.no ?: pacient.id }}</span>
             </div>
-
-            <div class="row g-3 mb-3">
-                <div class="col-md-4">
-                    <label class="form-label font-weight-bold">Género</label>
-                    <select name="gender" class="form-select">
-                        <option value="m" {{ pacient.gender == 'm' ? 'selected' : '' }}>Masculino</option>
-                        <option value="f" {{ pacient.gender == 'f' ? 'selected' : '' }}>Femenino</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label font-weight-bold">Fecha de Nacimiento</label>
-                    <input type="date" name="day_of_birth" class="form-control" value="{{ pacient.day_of_birth }}">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label font-weight-bold">Teléfono</label>
-                    <input type="text" name="phone" class="form-control" value="{{ pacient.phone }}">
-                </div>
-            </div>
-
-            <div class="row g-3 mb-3">
-                <div class="col-md-6">
-                    <label class="form-label font-weight-bold">Correo Electrónico</label>
-                    <input type="email" name="email" class="form-control" value="{{ pacient.email }}">
-                </div>
-                <div class="col-md-6">
-                    <label class="form-label font-weight-bold">Dirección</label>
-                    <input type="text" name="address" class="form-control" value="{{ pacient.address }}">
-                </div>
-            </div>
-
-            <hr class="my-4">
-
-            <h5 class="fw-bold mb-3"><i class="bi bi-file-medical text-primary me-2"></i> Antecedentes Médicos</h5>
-            
-            <div class="mb-3">
-                <label class="form-label font-weight-bold">Enfermedades / Padecimientos</label>
-                <textarea name="sick" class="form-control" rows="2">{{ pacient.sick }}</textarea>
-            </div>
-
-            <div class="mb-3">
-                <label class="form-label font-weight-bold">Medicamentos Actuales</label>
-                <textarea name="medicaments" class="form-control" rows="2">{{ pacient.medicaments }}</textarea>
-            </div>
-
-            <div class="mb-4">
-                <label class="form-label font-weight-bold">Alergias</label>
-                <textarea name="alergy" class="form-control" rows="2">{{ pacient.alergy }}</textarea>
-            </div>
-
-            <div class="d-flex justify-content-end gap-2">
-                <a href="{{ base_url }}/pacients" class="btn btn-outline-secondary px-4">Cancelar</a>
-                <button type="submit" class="btn btn-primary px-4"><i class="bi bi-check-circle me-1"></i> Actualizar Paciente</button>
-            </div>
-        </form>
+            <h3 class="fw-bold mb-0 text-body-emphasis">Editar Paciente: {{ pacient.name }} {{ pacient.lastname }}</h3>
+            <p class="text-body-secondary small mb-0">Actualice la información personal, datos de contacto o historial médico del paciente.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a href="{{ base_url }}/pacient/{{ pacient.id }}" class="btn btn-light border px-3">
+                <i class="bi bi-x-circle me-1"></i> Cancelar
+            </a>
+            <button type="submit" class="btn btn-primary px-4 shadow-sm fw-semibold">
+                <i class="bi bi-check2-circle me-1"></i> Actualizar Paciente
+            </button>
+        </div>
     </div>
-</div>
+
+    <div class="row g-4 mb-4">
+        <!-- Columna Izquierda: Formulario Principal -->
+        <div class="col-lg-8">
+            <!-- Bloque 1: Datos Personales -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-2 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-person-vcard fs-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-body-emphasis">Información Personal</h5>
+                            <small class="text-body-secondary">Identificación y datos demográficos básicos</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-light text-body-secondary border px-3 py-1 rounded-pill small">Paso 1</span>
+                </div>
+                <div class="card-body p-4 pt-3">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-body-secondary">No. Expediente / Folio</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-hash"></i></span>
+                                <input type="text" name="no" id="inputNo" class="form-control" value="{{ pacient.no }}" placeholder="Ej. PAC-001">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-body-secondary">Nombre(s) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-person"></i></span>
+                                <input type="text" name="name" id="inputName" class="form-control" required value="{{ pacient.name }}" placeholder="Nombre(s)">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-body-secondary">Apellido(s) <span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-person"></i></span>
+                                <input type="text" name="lastname" id="inputLastname" class="form-control" required value="{{ pacient.lastname }}" placeholder="Apellido(s)">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-body-secondary">Género</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-gender-ambiguous"></i></span>
+                                <select name="gender" id="inputGender" class="form-select">
+                                    <option value="m" {{ pacient.gender == 'm' ? 'selected' : '' }}>Masculino</option>
+                                    <option value="f" {{ pacient.gender == 'f' ? 'selected' : '' }}>Femenino</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-body-secondary">Fecha de Nacimiento</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-calendar-date"></i></span>
+                                <input type="date" name="day_of_birth" id="inputDob" class="form-control" value="{{ pacient.day_of_birth }}">
+                            </div>
+                            <small id="ageDisplay" class="text-primary fw-semibold" style="font-size: 0.75rem; display: none;">
+                                <i class="bi bi-info-circle me-1"></i> <span id="ageText">0 años</span>
+                            </small>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label small fw-bold text-body-secondary">Teléfono Principal</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-telephone"></i></span>
+                                <input type="tel" name="phone" id="inputPhone" class="form-control" value="{{ pacient.phone }}" placeholder="Ej. 555-123-4567">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloque 2: Contacto y Ubicación -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-2 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-geo-alt-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-body-emphasis">Datos de Contacto y Domicilio</h5>
+                            <small class="text-body-secondary">Medios para recordatorios y localización</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-light text-body-secondary border px-3 py-1 rounded-pill small">Paso 2</span>
+                </div>
+                <div class="card-body p-4 pt-3">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-body-secondary">Correo Electrónico</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-envelope"></i></span>
+                                <input type="email" name="email" id="inputEmail" class="form-control" value="{{ pacient.email }}" placeholder="paciente@correo.com">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label small fw-bold text-body-secondary">Dirección de Residencia</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-body-tertiary text-body-secondary"><i class="bi bi-house-door"></i></span>
+                                <input type="text" name="address" id="inputAddress" class="form-control" value="{{ pacient.address }}" placeholder="Calle, número, colonia, ciudad">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bloque 3: Antecedentes Clínicos -->
+            <div class="card border-0 shadow-sm rounded-3 mb-4">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-2 d-flex align-items-center justify-content-between">
+                    <div class="d-flex align-items-center gap-2">
+                        <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width: 36px; height: 36px;">
+                            <i class="bi bi-heart-pulse-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold mb-0 text-body-emphasis">Antecedentes Médicos y Clínicos</h5>
+                            <small class="text-body-secondary">Padecimientos previos, tratamientos y alergias</small>
+                        </div>
+                    </div>
+                    <span class="badge bg-light text-body-secondary border px-3 py-1 rounded-pill small">Paso 3</span>
+                </div>
+                <div class="card-body p-4 pt-3">
+                    <div class="alert alert-primary bg-primary-subtle border-0 rounded-3 d-flex align-items-center p-3 mb-3">
+                        <i class="bi bi-shield-check fs-4 text-primary me-3"></i>
+                        <div class="small">
+                            <strong>Ficha médica confidencial:</strong> Estos datos permiten prevenir interacciones farmacológicas y optimizar el diagnóstico en cada consulta.
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-body-secondary">
+                            <i class="bi bi-activity text-danger me-1"></i> Enfermedades o Padecimientos Previos
+                        </label>
+                        <textarea name="sick" class="form-control" rows="2" placeholder="Describa diagnósticos previos...">{{ pacient.sick }}</textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-bold text-body-secondary">
+                            <i class="bi bi-capsule-pill text-info me-1"></i> Medicamentos Actuales / Tratamientos
+                        </label>
+                        <textarea name="medicaments" class="form-control" rows="2" placeholder="Medicamentos habituales...">{{ pacient.medicaments }}</textarea>
+                    </div>
+
+                    <div class="mb-2">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label class="form-label small fw-bold text-body-secondary mb-0">
+                                <i class="bi bi-exclamation-triangle-fill text-warning me-1"></i> Alergias Conocidas
+                            </label>
+                            <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-2 py-1 small">Atención Médica</span>
+                        </div>
+                        <textarea name="alergy" class="form-control border-danger-subtle" rows="2" placeholder="Alergias a medicamentos, alimentos o sustancias...">{{ pacient.alergy }}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Columna Derecha: Previsualización en Vivo -->
+        <div class="col-lg-4">
+            <div class="card border-0 shadow-sm rounded-3 mb-4 sticky-top" style="top: 85px; z-index: 10;">
+                <div class="card-header bg-transparent border-0 pt-4 px-4 pb-2">
+                    <h6 class="fw-bold mb-0 text-body-emphasis d-flex align-items-center">
+                        <i class="bi bi-eye text-primary me-2"></i> Ficha del Paciente
+                    </h6>
+                </div>
+                <div class="card-body p-4 text-center">
+                    <div id="previewAvatar" class="avatar rounded-circle mx-auto d-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 80px; height: 80px; font-size: 32px; font-weight: 700; background: linear-gradient(135deg, {{ pacient.gender == 'f' ? '#ec4899, #be185d' : '#2563eb, #1d4ed8' }}); color: white;">
+                        <span id="previewInitials">{{ pacient.name|slice(0, 1)|upper ~ pacient.lastname|slice(0, 1)|upper }}</span>
+                    </div>
+
+                    <h5 class="fw-bold mb-1 text-body-emphasis" id="previewFullName">{{ pacient.name }} {{ pacient.lastname }}</h5>
+                    <p class="text-body-secondary small mb-3">
+                        <span class="badge bg-light text-body border" id="previewNo">Folio: #{{ pacient.no ?: pacient.id }}</span>
+                    </p>
+
+                    <div class="text-start border-top pt-3 small">
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-body-secondary"><i class="bi bi-gender-ambiguous me-1"></i> Género:</span>
+                            <strong id="previewGender">{{ pacient.gender == 'f' ? 'Femenino' : 'Masculino' }}</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-body-secondary"><i class="bi bi-calendar3 me-1"></i> Edad:</span>
+                            <strong id="previewAge">Por calcular</strong>
+                        </div>
+                        <div class="d-flex justify-content-between mb-2">
+                            <span class="text-body-secondary"><i class="bi bi-telephone me-1"></i> Teléfono:</span>
+                            <span id="previewPhone" class="text-truncate" style="max-width: 140px;">{{ pacient.phone ?: 'No asignado' }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-0">
+                            <span class="text-body-secondary"><i class="bi bi-envelope me-1"></i> Correo:</span>
+                            <span id="previewEmail" class="text-truncate" style="max-width: 140px;">{{ pacient.email ?: 'No asignado' }}</span>
+                        </div>
+                    </div>
+
+                    <hr class="my-3">
+
+                    <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm mb-2">
+                        <i class="bi bi-check-circle me-1"></i> Guardar Cambios
+                    </button>
+                    <a href="{{ base_url }}/pacient/{{ pacient.id }}" class="btn btn-outline-secondary w-100 py-2 small">
+                        Cancelar y Volver
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var inputName = document.getElementById('inputName');
+    var inputLastname = document.getElementById('inputLastname');
+    var inputNo = document.getElementById('inputNo');
+    var inputGender = document.getElementById('inputGender');
+    var inputDob = document.getElementById('inputDob');
+    var inputPhone = document.getElementById('inputPhone');
+    var inputEmail = document.getElementById('inputEmail');
+
+    var previewFullName = document.getElementById('previewFullName');
+    var previewInitials = document.getElementById('previewInitials');
+    var previewNo = document.getElementById('previewNo');
+    var previewGender = document.getElementById('previewGender');
+    var previewAge = document.getElementById('previewAge');
+    var previewPhone = document.getElementById('previewPhone');
+    var previewEmail = document.getElementById('previewEmail');
+    var previewAvatar = document.getElementById('previewAvatar');
+    var ageDisplay = document.getElementById('ageDisplay');
+    var ageText = document.getElementById('ageText');
+
+    function updatePreview() {
+        var name = (inputName.value || '').trim();
+        var lastname = (inputLastname.value || '').trim();
+        var no = (inputNo.value || '').trim();
+        var gender = inputGender.value;
+        var phone = (inputPhone.value || '').trim();
+        var email = (inputEmail.value || '').trim();
+        var dob = inputDob.value;
+
+        // Nombre e iniciales
+        if (name || lastname) {
+            previewFullName.textContent = (name + ' ' + lastname).trim();
+            var init1 = name ? name[0].toUpperCase() : '';
+            var init2 = lastname ? lastname[0].toUpperCase() : '';
+            previewInitials.textContent = init1 + init2 || 'P';
+        } else {
+            previewFullName.textContent = 'Paciente';
+            previewInitials.textContent = 'P';
+        }
+
+        // Folio / No
+        previewNo.textContent = no ? 'Folio: #' + no : 'Folio: Pendiente';
+
+        // Género y color del avatar
+        if (gender === 'f') {
+            previewGender.textContent = 'Femenino';
+            previewAvatar.style.background = 'linear-gradient(135deg, #ec4899, #be185d)';
+        } else {
+            previewGender.textContent = 'Masculino';
+            previewAvatar.style.background = 'linear-gradient(135deg, #2563eb, #1d4ed8)';
+        }
+
+        // Teléfono y Correo
+        previewPhone.textContent = phone || 'No asignado';
+        previewEmail.textContent = email || 'No asignado';
+
+        // Edad calculada
+        if (dob) {
+            var birthDate = new Date(dob);
+            var today = new Date();
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            if (age >= 0) {
+                previewAge.textContent = age + ' años';
+                ageText.textContent = 'Edad aproximada: ' + age + ' años';
+                ageDisplay.style.display = 'inline-block';
+            } else {
+                previewAge.textContent = 'Fecha inválida';
+                ageDisplay.style.display = 'none';
+            }
+        } else {
+            previewAge.textContent = 'Por calcular';
+            ageDisplay.style.display = 'none';
+        }
+    }
+
+    [inputName, inputLastname, inputNo, inputPhone, inputEmail].forEach(function(el) {
+        if (el) el.addEventListener('input', updatePreview);
+    });
+
+    if (inputGender) inputGender.addEventListener('change', updatePreview);
+    if (inputDob) inputDob.addEventListener('change', updatePreview);
+
+    updatePreview();
+});
+</script>
 {% endblock %}

@@ -19,6 +19,10 @@ class ReservationService {
         return \ReservationData::getAllPendings();
     }
 
+    public function getTodayReservations(): array {
+        return \ReservationData::getToday();
+    }
+
     public function getOldReservations(): array {
         return \ReservationData::getOld();
     }
@@ -82,5 +86,21 @@ class ReservationService {
 
     public function filterReservations(array $filters): array {
         return \ReservationData::getByFilter($filters);
+    }
+
+    public function getStatusSummary(): array {
+        return \ReservationData::getStatusSummary();
+    }
+
+    public function getMonthlySummary(int $limit = 6): array {
+        return \ReservationData::getMonthlySummary($limit);
+    }
+
+    public function getSpecialtySummary(int $limit = 6): array {
+        return \ReservationData::getSpecialtySummary($limit);
+    }
+
+    public function getKpiSummary(): array {
+        return \ReservationData::getKpiSummary();
     }
 }
